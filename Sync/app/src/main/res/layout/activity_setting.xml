@@ -14,7 +14,7 @@
         android:layout_marginTop="32dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="IPアドレス"
+        android:text="192.168.100.2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -25,8 +25,8 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="ポート番号"
+        android:inputType="number"
+        android:text="8080"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ipAddressEditText" />
 
@@ -53,4 +53,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/portNumberEditText"
         app:layout_constraintTop_toBottomOf="@+id/ipAddressButton" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

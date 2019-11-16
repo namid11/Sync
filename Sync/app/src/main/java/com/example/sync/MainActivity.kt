@@ -1,6 +1,8 @@
 package com.example.sync
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.graphics.Point
 import android.hardware.Sensor
 import android.hardware.SensorEvent
@@ -28,12 +30,18 @@ class MainActivity : AppCompatActivity(), SensorEventListener, ShakeDetector.Lis
     private lateinit var settingButton: ImageButton
 
     val accSensorManager = AccSensorManager(v_flag = false, buf_time = null)
+    private lateinit var touchPointManager: TouchPointManager
 
-    val touchPointManager = TouchPointManager()
+
+    enum class REQUEST_INTENT {
+        SETTING
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        touchPointManager = TouchPointManager(this)
 
         trackView = findViewById(R.id.trackView)
         trackView.setOnTouchListener { v, event ->  touchProcess(v, event)}
@@ -42,7 +50,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener, ShakeDetector.Lis
 
         settingButton = findViewById(R.id.settingButton)
         settingButton.setOnClickListener {
-
+            val intent = Intent(this, SettingActivity::class.java)
+            startActivityForResult(intent, REQUEST_INTENT.SETTING.ordinal)
         }
     }
 
@@ -57,6 +66,16 @@ class MainActivity : AppCompatActivity(), SensorEventListener, ShakeDetector.Lis
 
         val accelSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
         sensorManager.registerListener(this, accelSensor, SensorManager.SENSOR_DELAY_NORMAL)
+
+
+        // IPアドレスとポート番号が未設定の場合の初期設定
+        val sharedPref = getSharedPreferences("ServerAddress", Context.MODE_PRIVATE)
+        if (sharedPref.getString("ip", "") == "") {
+            sharedPref.edit().putString("ip", "192.168.100.2").apply()
+        }
+        if (sharedPref.getInt("port", 0) == 0) {
+            sharedPref.edit().putInt("port", 8080).apply()
+        }
     }
 
     override fun onPause() {
@@ -66,13 +85,27 @@ class MainActivity : AppCompatActivity(), SensorEventListener, ShakeDetector.Lis
         sensorManager.unregisterListener(this)
     }
 
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        when (requestCode) {
+            REQUEST_INTENT.SETTING.ordinal -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    touchPointManager.ipPortManager.reloadAddressInfo()
+                }
+            }
+        }
+    }
+
+
     // シェイク検知
     override fun hearShake() {
         // やりたい処理を書く
         Log.d("[LOG] - DEBUG", "get shake !")
         val jsonObj = JSONObject()
         jsonObj.put("key", "shake")
-        runSocket(jsonObj)
+//        runSocket(jsonObj)
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
@@ -98,25 +131,45 @@ class MainActivity : AppCompatActivity(), SensorEventListener, ShakeDetector.Lis
 //        val animation = AnimationUtils.loadAnimation(this, R.anim.demo_ani)
 //        demoView.startAnimation(animation)
 
-        when (event.action) {
-            MotionEvent.ACTION_DOWN -> {
-                touchPointManager.first_down(TouchPoint(event.x, event.y), event.eventTime)
-                Log.d("[LOG] - DEBUG", "ACTION_DOWN")
+        when (event.pointerCount) {
+            1 -> {
+                Log.d("[LOG] - DEBUG", "pointer count 1")
+                when (event.action) {
+                    MotionEvent.ACTION_DOWN -> {
+                        touchPointManager.first_down(TouchPoint(event.x, event.y), event.eventTime)
+                        Log.d("[LOG] - DEBUG", "ACTION_DOWN")
+                    }
+
+                    MotionEvent.ACTION_MOVE -> {
+                        touchPointManager.moved(TouchPoint(event.x, event.y))
+                        Log.d("[LOG] - DEBUG", "ACTION_MOVE")
+                    }
+
+                    MotionEvent.ACTION_UP -> {
+                        touchPointManager.up(TouchPoint(event.x, event.y), event.eventTime)
+                    }
+                }
             }
 
-            MotionEvent.ACTION_MOVE -> {
-                touchPointManager.moved(TouchPoint(event.x, event.y))
-                Log.d("[LOG] - DEBUG", "ACTION_MOVE")
+            2 -> {
+                Log.d("[LOG] - DEBUG", "pointer count 2")
+                touchPointManager.twoTap = true
+                when (event.action) {
+                    MotionEvent.ACTION_DOWN -> {
+                        touchPointManager.first_down(TouchPoint(event.x, event.y), event.eventTime)
+                        Log.d("[LOG] - DEBUG", "ACTION_DOWN")
+                    }
+
+                    MotionEvent.ACTION_MOVE -> {
+                        touchPointManager.scroll(TouchPoint(event.x, event.y))
+                        Log.d("[LOG] - DEBUG", "ACTION_MOVE")
+                    }
+
+                    MotionEvent.ACTION_UP -> {
+                        touchPointManager.double(event.eventTime)
+                    }
+                }
             }
-
-            MotionEvent.ACTION_UP -> {
-                Log.d("[LOG] - DEBUG", "%s".format(touchPointManager.up(TouchPoint(event.x, event.y), event.eventTime)))
-            }
-
-
-//            MotionEvent.ACTION_CANCEL -> {
-//                Log.d("[LOG] - DEBUG", "ACTION_CANCEL")
-//            }
         }
 
         demoView.x = event.x
@@ -130,9 +183,12 @@ class MainActivity : AppCompatActivity(), SensorEventListener, ShakeDetector.Lis
 
     data class TouchPoint(var x:Float, var y:Float)
 
-    class TouchPointManager {
+    class TouchPointManager(context: Context) {
+
+        val ipPortManager = IpPortManager(context)
 
         var down: Boolean = false
+        var twoTap: Boolean = false
         var firstTouchPoint: TouchPoint? = null
         var firstTouchTime: Long = 0
 
@@ -145,32 +201,65 @@ class MainActivity : AppCompatActivity(), SensorEventListener, ShakeDetector.Lis
 //                put("y", point.y)
 //            })
             firstTouchPoint = point
-            runSocket(postJsonObj)
+            runSocket(ipPortManager.getIP(), ipPortManager.getPort(), postJsonObj)
 
             firstTouchTime = time
         }
 
         fun moved(point: TouchPoint) {
-            if (down && firstTouchPoint != null) {
-                val postJsonObj = JSONObject()
-                postJsonObj.put("key", "moved")
+            if (!twoTap) {
+                if (down && firstTouchPoint != null) {
+                    val postJsonObj = JSONObject()
+                    postJsonObj.put("key", "moved")
 
-                postJsonObj.put("context", JSONObject().apply {
-                    put("x", point.x - firstTouchPoint.x)
-                    put("y", point.y - firstTouchPoint.y)
-                })
+                    postJsonObj.put("context", JSONObject().apply {
+                        put("x", point.x - firstTouchPoint!!.x)
+                        put("y", point.y - firstTouchPoint!!.y)
+                    })
 
-                runSocket(postJsonObj)
-            } else {
-                Log.d("[LOG] - ERROR", "don't find pointBefore")
+                    runSocket(ipPortManager.getIP(), ipPortManager.getPort(), postJsonObj)
+                } else {
+                    Log.d("[LOG] - ERROR", "don't find pointBefore")
+                }
             }
         }
 
-        fun up(point: TouchPoint, time: Long): Boolean {
+        fun up(point: TouchPoint, time: Long) {
+            if (twoTap) {
+                val postJsonObj = JSONObject()
+                postJsonObj.put("key", "double")
+                if (time - firstTouchTime < 150) {
+                    runSocket(ipPortManager.getIP(), ipPortManager.getPort(), postJsonObj)
+                }
+            } else {
+                val postJsonObj = JSONObject()
+                postJsonObj.put("key", "click")
+                if (time - firstTouchTime < 150) {
+                    runSocket(ipPortManager.getIP(), ipPortManager.getPort(), postJsonObj)
+                }
+            }
+
+            this.twoTap = false
+        }
+
+        fun scroll(point: TouchPoint) {
             val postJsonObj = JSONObject()
-            postJsonObj.put("key", "click")
-            runSocket(postJsonObj)
-            return time - firstTouchTime < 300
+            postJsonObj.put("key", "scroll")
+
+            postJsonObj.put("context", JSONObject().apply {
+                put("x", ((point.x - firstTouchPoint!!.x) / 10).toInt())
+                put("y", ((point.y - firstTouchPoint!!.y) / 10).toInt())
+            })
+
+            runSocket(ipPortManager.getIP(), ipPortManager.getPort(), postJsonObj)
+        }
+
+        fun double(time: Long) {
+            val postJsonObj = JSONObject()
+            postJsonObj.put("key", "double")
+            if (time - firstTouchTime < 150) {
+                runSocket(ipPortManager.getIP(), ipPortManager.getPort(), postJsonObj)
+            }
         }
     }
 }

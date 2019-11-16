@@ -1,13 +1,31 @@
 package com.example.sync
 
+import android.content.Context
 import org.json.JSONObject
 import java.io.IOException
 import java.net.*
 
-fun runSocket(jsonObj: JSONObject) {
+
+class IpPortManager(val context: Context) {
+    val sharedPref = context.getSharedPreferences("ServerAddress", Context.MODE_PRIVATE)
+    private var ip: String = sharedPref.getString("ip", "192.168.100.2") ?: "192.168.100.2"
+    private var port: Int = sharedPref.getInt("port", 8080)
+
+    fun getIP(): String = ip
+
+    fun getPort(): Int = port
+
+    fun reloadAddressInfo() {
+        this.ip = sharedPref.getString("ip", "192.168.100.2") ?: "192.168.100.2"
+        this.port = sharedPref.getInt("port", 8080)
+    }
+}
+
+
+fun runSocket(ip: String, port: Int, jsonObj: JSONObject) {
     Thread {
-        var socket: DatagramSocket = DatagramSocket(8080)
-        val address = InetAddress.getByName("192.168.43.148")
+        val socket: DatagramSocket = DatagramSocket(port)
+        val address = InetAddress.getByName(ip)
 //        val socket = Socket()
 //        val inetSocketAddress = InetSocketAddress("192.168.43.148", 8080)
         try {
