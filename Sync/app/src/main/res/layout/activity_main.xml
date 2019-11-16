@@ -26,14 +26,14 @@
         app:layout_constraintStart_toStartOf="@+id/trackView"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/socketButton"
+    <ImageButton
+        android:id="@+id/settingButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:text="Socket"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/trackView" />
+        app:srcCompat="@drawable/setting_icon" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
