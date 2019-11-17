@@ -3,25 +3,18 @@ package com.example.sync
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.Point
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.method.Touch
-import android.util.JsonReader
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
-import android.view.animation.AnimationUtils
-import android.widget.Button
 import android.widget.ImageButton
 import com.squareup.seismic.ShakeDetector
 import org.json.JSONObject
-import java.io.*
-import java.net.*
 
 class MainActivity : AppCompatActivity(), SensorEventListener, ShakeDetector.Listener {
 
@@ -37,6 +30,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener, ShakeDetector.Lis
         SETTING
     }
 
+
+    // Creating View
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -50,11 +45,13 @@ class MainActivity : AppCompatActivity(), SensorEventListener, ShakeDetector.Lis
 
         settingButton = findViewById(R.id.settingButton)
         settingButton.setOnClickListener {
-            val intent = Intent(this, SettingActivity::class.java)
+            val intent = Intent(this, IpPortSettingActivity::class.java)
             startActivityForResult(intent, REQUEST_INTENT.SETTING.ordinal)
         }
     }
 
+
+    // Back to View
     override fun onResume() {
         super.onResume()
 
@@ -78,6 +75,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener, ShakeDetector.Lis
         }
     }
 
+
+    // Leave this View
     override fun onPause() {
         super.onPause()
 
@@ -86,6 +85,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, ShakeDetector.Lis
     }
 
 
+    // Get result any activity
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -108,9 +108,13 @@ class MainActivity : AppCompatActivity(), SensorEventListener, ShakeDetector.Lis
 //        runSocket(jsonObj)
     }
 
+
+
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
     }
 
+
+    // Sensor
     override fun onSensorChanged(event: SensorEvent?) {
         if (event != null) {
             if (event.sensor.type == Sensor.TYPE_ACCELEROMETER) {
@@ -124,6 +128,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, ShakeDetector.Lis
         }
     }
 
+
     // View上のタッチ反応取得イベント
     private fun touchProcess(v: View, event: MotionEvent): Boolean {
 //        Log.d("[Log] TouchProcess", "message - %s".format(MotionEvent.ACTION_DOWN == event.action).toString())
@@ -132,6 +137,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, ShakeDetector.Lis
 //        demoView.startAnimation(animation)
 
         when (event.pointerCount) {
+            // １本指
             1 -> {
                 Log.d("[LOG] - DEBUG", "pointer count 1")
                 when (event.action) {
@@ -151,6 +157,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, ShakeDetector.Lis
                 }
             }
 
+            // ２本指
             2 -> {
                 Log.d("[LOG] - DEBUG", "pointer count 2")
                 touchPointManager.twoTap = true
@@ -196,10 +203,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener, ShakeDetector.Lis
             down = true
             val postJsonObj = JSONObject()
             postJsonObj.put("key", "first")
-//            postJsonObj.put("context", JSONObject().apply {
-//                put("x", point.x)
-//                put("y", point.y)
-//            })
             firstTouchPoint = point
             runSocket(ipPortManager.getIP(), ipPortManager.getPort(), postJsonObj)
 
