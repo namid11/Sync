@@ -102,10 +102,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, ShakeDetector.Lis
     // シェイク検知
     override fun hearShake() {
         // やりたい処理を書く
-        Log.d("[LOG] - DEBUG", "get shake !")
-        val jsonObj = JSONObject()
-        jsonObj.put("key", "shake")
-//        runSocket(jsonObj)
+        touchPointManager.shake()
     }
 
 
@@ -250,8 +247,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener, ShakeDetector.Lis
             postJsonObj.put("key", "scroll")
 
             postJsonObj.put("context", JSONObject().apply {
-                put("x", ((point.x - firstTouchPoint!!.x) / 10).toInt())
-                put("y", ((point.y - firstTouchPoint!!.y) / 10).toInt())
+                put("x", ((point.x - firstTouchPoint!!.x)).toInt())
+                put("y", ((point.y - firstTouchPoint!!.y)).toInt())
             })
 
             runSocket(ipPortManager.getIP(), ipPortManager.getPort(), postJsonObj)
@@ -263,6 +260,12 @@ class MainActivity : AppCompatActivity(), SensorEventListener, ShakeDetector.Lis
             if (time - firstTouchTime < 150) {
                 runSocket(ipPortManager.getIP(), ipPortManager.getPort(), postJsonObj)
             }
+        }
+
+        fun shake() {
+            val jsonObj = JSONObject()
+            jsonObj.put("key", "shake")
+            runSocket(ipPortManager.getIP(), ipPortManager.getPort(), jsonObj)
         }
     }
 }
