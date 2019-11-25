@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.156
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "My_ShareMouse_alpha", "My_ShareMouse_alpha\My_ShareMouse_alpha.csproj", "{CDC48988-BC6C-442F-999E-A49F8FE50AB9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CDC48988-BC6C-442F-999E-A49F8FE50AB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDC48988-BC6C-442F-999E-A49F8FE50AB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDC48988-BC6C-442F-999E-A49F8FE50AB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDC48988-BC6C-442F-999E-A49F8FE50AB9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {524AC097-AF94-4EAC-BA5C-5C6407F50D57}
+	EndGlobalSection
+EndGlobal
