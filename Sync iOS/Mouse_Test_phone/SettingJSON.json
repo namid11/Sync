@@ -1,0 +1,11 @@
+{
+    "GroupNum" : 2,
+	"IPEndPoint" : {
+		"ip_address" : null,
+		"port_number" : null
+	},
+
+	"Control" :{
+		"sensitivity" : 1
+	}
+}
