@@ -1,0 +1,10 @@
+C:\Users\hiroy\Project\VS_Project\My_ShareMouse_alpha\My_ShareMouse_alpha\bin\Debug\My_ShareMouse_alpha.exe.config
+C:\Users\hiroy\Project\VS_Project\My_ShareMouse_alpha\My_ShareMouse_alpha\bin\Debug\My_ShareMouse_alpha.exe
+C:\Users\hiroy\Project\VS_Project\My_ShareMouse_alpha\My_ShareMouse_alpha\bin\Debug\My_ShareMouse_alpha.pdb
+C:\Users\hiroy\Project\VS_Project\My_ShareMouse_alpha\My_ShareMouse_alpha\obj\Debug\My_ShareMouse_alpha.csprojAssemblyReference.cache
+C:\Users\hiroy\Project\VS_Project\My_ShareMouse_alpha\My_ShareMouse_alpha\obj\Debug\My_ShareMouse_alpha.Properties.Resources.resources
+C:\Users\hiroy\Project\VS_Project\My_ShareMouse_alpha\My_ShareMouse_alpha\obj\Debug\My_ShareMouse_alpha.csproj.GenerateResource.cache
+C:\Users\hiroy\Project\VS_Project\My_ShareMouse_alpha\My_ShareMouse_alpha\obj\Debug\My_ShareMouse_alpha.csproj.CoreCompileInputs.cache
+C:\Users\hiroy\Project\VS_Project\My_ShareMouse_alpha\My_ShareMouse_alpha\obj\Debug\My_ShareMouse_alpha.exe
+C:\Users\hiroy\Project\VS_Project\My_ShareMouse_alpha\My_ShareMouse_alpha\obj\Debug\My_ShareMouse_alpha.pdb
+C:\Users\hiroy\Project\VS_Project\My_ShareMouse_alpha\My_ShareMouse_alpha\obj\Debug\My_ShareMouse_alpha.Form1.resources
