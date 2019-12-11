@@ -15,6 +15,7 @@ import android.view.View
 import android.widget.ImageButton
 import com.squareup.seismic.ShakeDetector
 import org.json.JSONObject
+import kotlin.math.abs
 
 class MainActivity : AppCompatActivity(), SensorEventListener, ShakeDetector.Listener {
 
@@ -195,8 +196,11 @@ class MainActivity : AppCompatActivity(), SensorEventListener, ShakeDetector.Lis
         var twoTap: Boolean = false
         var firstTouchPoint: TouchPoint? = null
         var firstTouchTime: Long = 0
+        var forceStop: Boolean = false  // 強制停止フラグ
 
         fun first_down(point: TouchPoint, time: Long) {
+            if (forceStop) return
+
             down = true
             val postJsonObj = JSONObject()
             postJsonObj.put("key", "first")
@@ -207,6 +211,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener, ShakeDetector.Lis
         }
 
         fun moved(point: TouchPoint) {
+            if (forceStop) return
+
             if (!twoTap) {
                 if (down && firstTouchPoint != null) {
                     val postJsonObj = JSONObject()
@@ -225,13 +231,20 @@ class MainActivity : AppCompatActivity(), SensorEventListener, ShakeDetector.Lis
         }
 
         fun up(point: TouchPoint, time: Long) {
+            if (forceStop) {
+                reset()
+                return
+            }
+
             if (twoTap) {
+                // 二本指タップ
                 val postJsonObj = JSONObject()
-                postJsonObj.put("key", "double")
+                postJsonObj.put("key", "two_fingers_click")
                 if (time - firstTouchTime < 150) {
                     runSocket(ipPortManager.getIP(), ipPortManager.getPort(), postJsonObj)
                 }
             } else {
+                // １本指タップ
                 val postJsonObj = JSONObject()
                 postJsonObj.put("key", "click")
                 if (time - firstTouchTime < 150) {
@@ -243,29 +256,60 @@ class MainActivity : AppCompatActivity(), SensorEventListener, ShakeDetector.Lis
         }
 
         fun scroll(point: TouchPoint) {
-            val postJsonObj = JSONObject()
-            postJsonObj.put("key", "scroll")
+            if (forceStop) return
 
-            postJsonObj.put("context", JSONObject().apply {
-                put("x", ((point.x - firstTouchPoint!!.x)).toInt())
-                put("y", ((point.y - firstTouchPoint!!.y)).toInt())
-            })
+            val dist_x = point.x - firstTouchPoint!!.x
+            val dist_y = point.y - firstTouchPoint!!.y
+            if (abs(dist_x) > 100) {
+                // ブラウザバック
+                if (dist_x > 0) {
+                    val postJsonObj = JSONObject()
+                    postJsonObj.put("key", "browser_back")
+                    runSocket(ipPortManager.getIP(), ipPortManager.getPort(), postJsonObj)
+                    forceStop = true
+                } else {
+                    val postJsonObj = JSONObject()
+                    postJsonObj.put("key", "browser_forward")
+                    runSocket(ipPortManager.getIP(), ipPortManager.getPort(), postJsonObj)
+                    forceStop = true
+                }
 
-            runSocket(ipPortManager.getIP(), ipPortManager.getPort(), postJsonObj)
+            } else if (abs(dist_x) > 20 || abs(dist_y) > 20) {
+                // 移動量が少ないとスクロールさせない
+                val postJsonObj = JSONObject()
+                postJsonObj.put("key", "scroll")
+                postJsonObj.put("context", JSONObject().apply {
+                    put("x", ((point.x - firstTouchPoint!!.x)).toInt())
+                    put("y", ((point.y - firstTouchPoint!!.y)).toInt())
+                })
+                runSocket(ipPortManager.getIP(), ipPortManager.getPort(), postJsonObj)
+            }
         }
 
         fun double(time: Long) {
+            if (forceStop) return
+
             val postJsonObj = JSONObject()
-            postJsonObj.put("key", "double")
+            postJsonObj.put("key", "two_fingers_click")
             if (time - firstTouchTime < 150) {
                 runSocket(ipPortManager.getIP(), ipPortManager.getPort(), postJsonObj)
             }
         }
 
         fun shake() {
+            if (forceStop) return
+
             val jsonObj = JSONObject()
             jsonObj.put("key", "shake")
             runSocket(ipPortManager.getIP(), ipPortManager.getPort(), jsonObj)
+        }
+
+        fun reset() {
+            down = false
+            twoTap = false
+            firstTouchPoint = null
+            firstTouchTime = 0
+            forceStop = false
         }
     }
 }
