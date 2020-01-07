@@ -1,8 +1,10 @@
 package com.example.sync
 
 import android.content.Context
+import android.util.Log
 import org.json.JSONObject
 import java.io.IOException
+import java.lang.Exception
 import java.net.*
 
 
@@ -23,23 +25,30 @@ class IpPortManager(val context: Context) {
 
 
 fun runSocket(ip: String, port: Int, jsonObj: JSONObject) {
-    Thread {
+    try {
         val socket: DatagramSocket = DatagramSocket(port)
         val address = InetAddress.getByName(ip)
-//        val socket = Socket()
+
+        Thread {
+            //        val socket = Socket()
 //        val inetSocketAddress = InetSocketAddress("192.168.43.148", 8080)
-        try {
+            try {
 //            // ソケットにデータ投入
 //            socket.connect(inetSocketAddress)
 //            val socketOS = socket.getOutputStream()
 //            socketOS.write(jsonObj.toString().toByteArray())
 //            socketOS.close()
 
-            val packet = DatagramPacket(jsonObj.toString().toByteArray(), jsonObj.toString().toByteArray().size, address, 8080)
-            socket.send(packet)
-            socket.close()
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-    }.start()
+                val packet = DatagramPacket(jsonObj.toString().toByteArray(), jsonObj.toString().toByteArray().size, address, 8080)
+                socket.send(packet)
+                socket.close()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }.start()
+    } catch (e: Exception) {
+        Log.e("on Socket", e.message)
+    }
+
+
 }
