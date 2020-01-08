@@ -120,7 +120,7 @@ class MotionManager {
                                 }
                             }
                             DEFINEGESTURE.TWO -> {
-                                if (tapLag <= 300) {
+                                if (tapLag <= 150) {
                                     return MotionData(GESTURE.R_CLICK)
                                 }
                             }

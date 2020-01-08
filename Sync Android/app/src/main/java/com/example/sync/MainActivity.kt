@@ -15,7 +15,6 @@ import android.view.View
 import android.widget.ImageButton
 import com.squareup.seismic.ShakeDetector
 import org.json.JSONObject
-import kotlin.math.abs
 
 class MainActivity : AppCompatActivity(), SensorEventListener, ShakeDetector.Listener {
 
@@ -47,7 +46,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, ShakeDetector.Lis
 
         settingButton = findViewById(R.id.settingButton)
         settingButton.setOnClickListener {
-            val intent = Intent(this, IpPortSettingActivity::class.java)
+            val intent = Intent(this, SettingMenuActivity::class.java)
             startActivityForResult(intent, REQUEST_INTENT.SETTING.ordinal)
         }
     }
@@ -57,6 +56,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, ShakeDetector.Lis
     override fun onResume() {
         super.onResume()
 
+        touchPointManager.ipPortManager.reloadAddressInfo()
 
         // リスナーをセット
         val sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
@@ -96,11 +96,11 @@ class MainActivity : AppCompatActivity(), SensorEventListener, ShakeDetector.Lis
         super.onActivityResult(requestCode, resultCode, data)
 
         when (requestCode) {
-            REQUEST_INTENT.SETTING.ordinal -> {
-                if (resultCode == Activity.RESULT_OK) {
-                    touchPointManager.ipPortManager.reloadAddressInfo()
-                }
-            }
+//            REQUEST_INTENT.SETTING.ordinal -> {
+//                if (resultCode == Activity.RESULT_OK) {
+//                    touchPointManager.ipPortManager.reloadAddressInfo()
+//                }
+//            }
         }
     }
 
@@ -260,9 +260,18 @@ class MainActivity : AppCompatActivity(), SensorEventListener, ShakeDetector.Lis
 
     data class TouchPoint(var x:Float, var y:Float)
 
-    class TouchPointManager(context: Context) {
+    class TouchPointManager(val context: Context) {
+
+        init {
+            sensitiveReload()
+        }
 
         val ipPortManager = IpPortManager(context)
+
+
+        // 感度
+        var cursorMagnification = 100
+        var scrollMagnification = 100
 
         // タップフラグ
         var down: Boolean = false
@@ -309,8 +318,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener, ShakeDetector.Lis
             postJsonObj.put("key", "moved")
 
             postJsonObj.put("context", JSONObject().apply {
-                put("x", x)
-                put("y", y)
+                put("x", x * (cursorMagnification.toFloat() / 100f))
+                put("y", y * (cursorMagnification.toFloat() / 100f))
             })
 
             runSocket(ipPortManager.getIP(), ipPortManager.getPort(), postJsonObj)
@@ -353,57 +362,12 @@ class MainActivity : AppCompatActivity(), SensorEventListener, ShakeDetector.Lis
             val postJsonObj = JSONObject()
             postJsonObj.put("key", "scroll")
             postJsonObj.put("context", JSONObject().apply {
-                put("x", x.toInt())
-                put("y", y.toInt())
+                put("x", (x*10 * (scrollMagnification.toFloat() / 100f)).toInt())
+                put("y", (y*10 * (scrollMagnification.toFloat() / 100f)).toInt())
             })
             runSocket(ipPortManager.getIP(), ipPortManager.getPort(), postJsonObj)
 
             Log.d("[MOTION DEBUG]", "[scroll] x: %f, y: %f".format(x, y))
-
-//            if (forceStop || tripleTap) return
-//
-//            if (scrollTime == 0L || scrollPoint == null) {
-//                scrollTime = time
-//                scrollPoint = point
-////                Log.d("[LOG]", "Set scroll param")
-//            } else {
-//                val dist_x = point.x - scrollPoint!!.x
-//                val dist_y = point.y - scrollPoint!!.y
-//                val d_time = time - scrollTime
-//                val vec_x = dist_x / (d_time)
-//                val vec_y = dist_y / (d_time)
-////                Log.d("[LOG]", "dist_x: %f, dist_y: %f, d_time: %d ,x: %f, y:%f".format(dist_x, dist_y, d_time.toInt(), vec_x, vec_y))
-//
-//                if (abs(dist_x) > 300) {
-//                    // ブラウザバック
-//                    if (dist_x > 0) {
-////                        Log.d("TouchPointManager", "browser_back")
-//                        val postJsonObj = JSONObject()
-//                        postJsonObj.put("key", "browser_back")
-//                        runSocket(ipPortManager.getIP(), ipPortManager.getPort(), postJsonObj)
-//                        forceStop = true
-//                    } else {
-////                        Log.d("TouchPointManager", "browser_forward")
-//                        val postJsonObj = JSONObject()
-//                        postJsonObj.put("key", "browser_forward")
-//                        runSocket(ipPortManager.getIP(), ipPortManager.getPort(), postJsonObj)
-//                        forceStop = true
-//                    }
-//
-//                } else if (abs(dist_x) > 20 || abs(dist_y) > 20) {
-//                    // 移動量が少ないとスクロールさせない
-//                    val postJsonObj = JSONObject()
-//                    postJsonObj.put("key", "scroll")
-//                    postJsonObj.put("context", JSONObject().apply {
-//                        put("x", ((point.x - firstTouchPoint!!.x)).toInt())
-//                        put("y", ((point.y - firstTouchPoint!!.y)).toInt())
-//                    })
-//                    runSocket(ipPortManager.getIP(), ipPortManager.getPort(), postJsonObj)
-//                }
-//
-//                scrollTime = time
-//                scrollPoint = point
-//            }
         }
 
         fun swipeL() {
@@ -421,7 +385,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener, ShakeDetector.Lis
 
             Log.d("[MOTION DEBUG]", "[swipe Right]")
         }
-
 
         fun triple(time: Long) {
             if (forceStop) return
@@ -441,6 +404,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, ShakeDetector.Lis
             runSocket(ipPortManager.getIP(), ipPortManager.getPort(), jsonObj)
         }
 
+        // 光センサ（暗）
         fun gloomy(hide: Boolean) {
             if (forceStop) return
 
@@ -457,6 +421,13 @@ class MainActivity : AppCompatActivity(), SensorEventListener, ShakeDetector.Lis
                 lightOn = false
             }
 
+        }
+
+        // get sensitive value from sharedPref
+        fun sensitiveReload() {
+            val sharedPref = context.getSharedPreferences("Setting", Context.MODE_PRIVATE)
+            cursorMagnification = sharedPref.getInt("cursor-sensitive", 100)
+            scrollMagnification = sharedPref.getInt("scroll-sensitive", 100)
         }
 
         fun reset() {
