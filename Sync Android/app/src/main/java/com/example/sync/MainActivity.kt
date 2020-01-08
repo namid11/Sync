@@ -49,6 +49,10 @@ class MainActivity : AppCompatActivity(), SensorEventListener, ShakeDetector.Lis
             val intent = Intent(this, SettingMenuActivity::class.java)
             startActivityForResult(intent, REQUEST_INTENT.SETTING.ordinal)
         }
+
+        // ブロードキャストConnect
+        receivedHostIp()
+        sendBroadcast(this)
     }
 
 
