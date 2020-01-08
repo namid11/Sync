@@ -13,11 +13,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".SensitiveActivity"></activity>
+        <activity android:name=".SettingMenuActivity" />
         <activity
             android:name=".IpPortSettingActivity"
             android:label="IpPortSetting"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MainActivity"
             android:label="Sync"
