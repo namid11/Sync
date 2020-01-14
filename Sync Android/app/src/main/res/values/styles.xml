@@ -9,6 +9,15 @@
 
     </style>
 
+    <!--  SeekBar Custom  -->
+    <style name="SeekBarTheme" parent="Widget.AppCompat.SeekBar">
+        <!--    つまみの色    -->
+        <item name="android:thumbTint">@color/colorPrimary</item>
+        <!--    よくわからん    -->
+        <item name="android:tickMarkTint">@color/colorPrimary</item>
+        <!--    シークバーの色    -->
+        <item name="android:progressTint">@color/colorPrimary</item>
+    </style>
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>

@@ -1,9 +1,8 @@
-package com.example.sync
+package com.example.sync.Manager
 
-import android.graphics.Point
-import android.text.method.Touch
 import android.util.Log
 import android.view.MotionEvent
+import com.example.sync.MainActivity
 import java.lang.Exception
 import kotlin.math.abs
 
@@ -34,7 +33,13 @@ fun MotionEventToEventData(event: MotionEvent): EventData {
     for (i in 0 until event.pointerCount) {
         val pid = event.getPointerId(i)
         try {
-            touchPoints.add(MainActivity.TouchPoint(x = event.getX(pid), y = event.getY(pid)))
+            touchPoints.add(
+                MainActivity.TouchPoint(
+                    x = event.getX(
+                        pid
+                    ), y = event.getY(pid)
+                )
+            )
         } catch (e: Exception) {
             Log.e("MotionEventToEventData", e.message)
         }
@@ -55,7 +60,8 @@ class MotionManager {
     private lateinit var firstMotion: EventData       // event data of first tap
     private lateinit var previousMotion: EventData    // data of previous event
     private var defineGesture: DEFINEGESTURE? = null    // variable defined the motion
-    private val scrollManager = ScrollManager()
+    private val scrollManager =
+        ScrollManager()
 
     // get MotionEvent
     fun frame(event: MotionEvent): MotionData? {
@@ -68,23 +74,32 @@ class MotionManager {
                     1 -> {
                         if (defineGesture != DEFINEGESTURE.TWO &&
                             defineGesture != DEFINEGESTURE.SWIPE &&
-                            defineGesture != DEFINEGESTURE.TRIPLE) {      // 確定ジェスチャーがnullなら
+                            defineGesture != DEFINEGESTURE.TRIPLE
+                        ) {      // 確定ジェスチャーがnullなら
 
-                            defineGesture = DEFINEGESTURE.MOVE                                                  // 設定
+                            defineGesture =
+                                DEFINEGESTURE.MOVE                                                  // 設定
                             val disX = event.x - firstMotion.x
                             val disY = event.y - firstMotion.y
-                            return MotionData(GESTURE.MOVE, x=disX, y=disY)
+                            return MotionData(
+                                GESTURE.MOVE,
+                                x = disX,
+                                y = disY
+                            )
                         }
                     }
                     2 -> {
                         if (defineGesture != DEFINEGESTURE.SWIPE &&
-                            defineGesture != DEFINEGESTURE.TRIPLE) {// 確定ジェスチャーがtriple以外なら
+                            defineGesture != DEFINEGESTURE.TRIPLE
+                        ) {// 確定ジェスチャーがtriple以外なら
 
-                            defineGesture = DEFINEGESTURE.TWO       // 設定
+                            defineGesture =
+                                DEFINEGESTURE.TWO       // 設定
                             val twoTapMotion = scrollManager.move(event)    // 二本指Moveのときの動作を決定
                             if (twoTapMotion != null) {     // SWIPEのときは、DEFINEにし、次の動作を停止
                                 if (twoTapMotion.gesture == GESTURE.L_SWIPE || twoTapMotion.gesture == GESTURE.R_SWIPE) {
-                                    defineGesture = DEFINEGESTURE.SWIPE
+                                    defineGesture =
+                                        DEFINEGESTURE.SWIPE
                                 }
                             }
                             return twoTapMotion
@@ -92,7 +107,8 @@ class MotionManager {
                     }
                     3 -> {
                         // 確定ジェスチャーがなんであろうと、設定OK
-                        defineGesture = DEFINEGESTURE.TRIPLE
+                        defineGesture =
+                            DEFINEGESTURE.TRIPLE
                     }
                 }
             }
@@ -100,9 +116,12 @@ class MotionManager {
             MotionEvent.ACTION_DOWN -> {
                 when (finger_num) {
                     1 -> {      // 全てはここから
-                        firstMotion = MotionEventToEventData(event)
+                        firstMotion =
+                            MotionEventToEventData(event)
 //                        previousMotion = MotionEventToEventData(event)
-                        return MotionData(GESTURE.FIRST)
+                        return MotionData(
+                            GESTURE.FIRST
+                        )
                     }
                     2 -> return null // <- 多分ありえない
                 }
@@ -116,12 +135,16 @@ class MotionManager {
                         when (defineGesture) {
                             DEFINEGESTURE.MOVE -> {
                                 if (tapLag <= 300) {
-                                    return MotionData(GESTURE.L_CLICK)
+                                    return MotionData(
+                                        GESTURE.L_CLICK
+                                    )
                                 }
                             }
                             DEFINEGESTURE.TWO -> {
                                 if (tapLag <= 150) {
-                                    return MotionData(GESTURE.R_CLICK)
+                                    return MotionData(
+                                        GESTURE.R_CLICK
+                                    )
                                 }
                             }
                             DEFINEGESTURE.TRIPLE -> {
@@ -163,7 +186,8 @@ class MotionManager {
                 val disX = (disX1 + disX2) / 2f
                 val disY = (disY1 + disY2) / 2f
 
-                previousScrl = MotionEventToEventData(event)
+                previousScrl =
+                    MotionEventToEventData(event)
 
 
                 // 数値の一時的な増大に対する対策
@@ -173,14 +197,22 @@ class MotionManager {
                 }
 
                 return if (abs(disX) >= 100) {
-                    if (disX > 0) MotionData(GESTURE.L_SWIPE) else MotionData(GESTURE.R_SWIPE)
+                    if (disX > 0) MotionData(
+                        GESTURE.L_SWIPE
+                    ) else MotionData(GESTURE.R_SWIPE)
                 } else {
-                    MotionData(GESTURE.SCROLL, x = disX, y = disY)
+                    MotionData(
+                        GESTURE.SCROLL,
+                        x = disX,
+                        y = disY
+                    )
                 }
 
             } else {
-                firstScrl = MotionEventToEventData(event)
-                previousScrl = MotionEventToEventData(event)
+                firstScrl =
+                    MotionEventToEventData(event)
+                previousScrl =
+                    MotionEventToEventData(event)
             }
 
             return null
