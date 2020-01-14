@@ -10,7 +10,7 @@
         android:id="@+id/trackView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#EBEBEB"
+        android:background="#F0F0F0"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -37,7 +37,7 @@
         android:background="@drawable/function_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/trackView"
-        app:srcCompat="@drawable/setting" />
+        app:srcCompat="@drawable/ui_setting" />
 
     <ImageButton
         android:id="@+id/forward_button"
@@ -47,7 +47,7 @@
         android:background="@drawable/function_button"
         app:layout_constraintEnd_toEndOf="@+id/settingButton"
         app:layout_constraintTop_toBottomOf="@+id/backward_button"
-        app:srcCompat="@drawable/forward" />
+        app:srcCompat="@drawable/ui_forward" />
 
     <ImageButton
         android:id="@+id/backward_button"
@@ -57,7 +57,7 @@
         android:background="@drawable/function_button"
         app:layout_constraintEnd_toEndOf="@+id/settingButton"
         app:layout_constraintTop_toBottomOf="@+id/settingButton"
-        app:srcCompat="@drawable/backward" />
+        app:srcCompat="@drawable/ui_backward" />
 
     <ImageButton
         android:id="@+id/presen_button"
@@ -67,6 +67,6 @@
         android:background="@drawable/function_button"
         app:layout_constraintEnd_toEndOf="@+id/settingButton"
         app:layout_constraintTop_toBottomOf="@+id/forward_button"
-        app:srcCompat="@drawable/presen_start" />
+        app:srcCompat="@drawable/ui_presen_start" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
