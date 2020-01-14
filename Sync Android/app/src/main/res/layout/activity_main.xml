@@ -13,8 +13,10 @@
         android:background="#EBEBEB"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <View
         android:id="@+id/demoView"
@@ -32,9 +34,39 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:background="#00FFFFFF"
+        android:background="@drawable/function_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/setting_icon" />
+        app:layout_constraintTop_toTopOf="@+id/trackView"
+        app:srcCompat="@drawable/setting" />
+
+    <ImageButton
+        android:id="@+id/forward_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/function_button"
+        app:layout_constraintEnd_toEndOf="@+id/settingButton"
+        app:layout_constraintTop_toBottomOf="@+id/backward_button"
+        app:srcCompat="@drawable/forward" />
+
+    <ImageButton
+        android:id="@+id/backward_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/function_button"
+        app:layout_constraintEnd_toEndOf="@+id/settingButton"
+        app:layout_constraintTop_toBottomOf="@+id/settingButton"
+        app:srcCompat="@drawable/backward" />
+
+    <ImageButton
+        android:id="@+id/presen_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/function_button"
+        app:layout_constraintEnd_toEndOf="@+id/settingButton"
+        app:layout_constraintTop_toBottomOf="@+id/forward_button"
+        app:srcCompat="@drawable/presen_start" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

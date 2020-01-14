@@ -1,4 +1,4 @@
-package com.example.sync
+package com.example.sync.Manager
 
 import android.content.Context
 import android.util.Log
