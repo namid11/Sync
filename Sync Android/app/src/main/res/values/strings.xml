@@ -2,4 +2,6 @@
     <string name="app_name">Sync</string>
     <string name="upload">更新</string>
     <string name="no_title"></string>
+    <string name="trackpad">Trackpad</string>
+    <string name="home">Home</string>
 </resources>
