@@ -2,20 +2,33 @@ package com.example.sync.Manager
 
 import android.content.Context
 import android.net.wifi.WifiManager
+import android.os.Build
+import android.util.JsonReader
 import android.util.Log
+import android.widget.Toast
+import org.json.JSONObject
+import java.io.BufferedInputStream
+import java.io.BufferedReader
 import java.io.IOException
+import java.io.InputStreamReader
 import java.net.*
 
 
 private var waiting = false
-private var udpPort = 8080 //ホスト、ゲストで統一
 private val tcpPort = 3333
 private var wifi: WifiManager? = null
 
 //同一Wi-fiに接続している全端末に対してブロードキャスト送信を行う
 fun sendBroadcast(context: Context) {
     sample_WifiConnection(context)
+    val sharedPreferences = context.getSharedPreferences("ServerAddress", Context.MODE_PRIVATE);
+    val udpPort = sharedPreferences.getInt("port", 8080)
     val myIpAddress: String = getIpAddress() ?: ""
+    val sendJsonData = JSONObject()
+    sendJsonData.put("ip", myIpAddress)
+    sendJsonData.put("device", Build.BRAND + " " + Build.MODEL)
+    val sendMsg = sendJsonData.toString()
+
     waiting = true
     Thread {
         var count = 0
@@ -25,8 +38,8 @@ fun sendBroadcast(context: Context) {
                 val udpSocket = DatagramSocket(udpPort)
                 udpSocket.broadcast = true  // broadcast ON
                 val packet = DatagramPacket(
-                    myIpAddress.toByteArray(),
-                    myIpAddress.length,
+                    sendMsg.toByteArray(),
+                    sendMsg.length,
                     getBroadcastAddress(),
                     udpPort
                 )
@@ -86,14 +99,16 @@ fun getBroadcastAddress(): InetAddress? {
 
 
 //ホストからTCPでIPアドレスが返ってきたときに受け取るメソッド
-fun receivedHostIp() {
+fun receivedHostIp(resolve: (JSONObject) -> Unit) {
     Thread {
         try {
             val serverSocket = ServerSocket(tcpPort)
-
+            serverSocket.soTimeout = 20000
             val connectedSocket = serverSocket.accept()
-            //↓③で使用
-//                    inputDeviceNameAndIp(connectedSocket)
+            val receivedReader = BufferedReader(InputStreamReader(connectedSocket.getInputStream()))
+            val receivedJsonData = JSONObject(receivedReader.readLine())
+            Log.d("receivedHostIp", "receive: %s".format(receivedJsonData.toString()))
+            resolve(receivedJsonData)
             serverSocket.close()
             connectedSocket.close()
 

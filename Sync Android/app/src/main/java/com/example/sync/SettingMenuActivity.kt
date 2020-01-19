@@ -17,7 +17,7 @@ class SettingMenuActivity : AppCompatActivity() {
         // Set RecyclerView
         settingRecyclerView = findViewById(R.id.setting_recycler_view)
         settingRecyclerView.adapter = SettingMenuAdapter(this)
-        settingRecyclerView.layoutManager = GridLayoutManager(this, 1)
+        settingRecyclerView.layoutManager = GridLayoutManager(this, 2)
 
     }
 }
