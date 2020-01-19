@@ -6,6 +6,7 @@
     <!-- ↑ここでどのActivityと結びついているか指定する -->
     <item
         android:id="@+id/upload_setting"
+        android:icon="@drawable/ui_saved"
         android:orderInCategory="10"
         android:title="@string/upload"
         app:showAsAction="always" />

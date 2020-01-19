@@ -39,7 +39,7 @@ class SensitiveActivity : AppCompatActivity() {
             object: SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                     if (progress < 50) return
-                    sharedPref.edit().putInt("cursor-sensitive", progress).apply()
+                    sharedPref.edit().putInt("cursor-sensitive", (progress.toFloat() / 100f).toInt()).apply()
                     dispCursorParam(progress)
                 }
 
@@ -56,7 +56,7 @@ class SensitiveActivity : AppCompatActivity() {
         scrollSensBar.setOnSeekBarChangeListener(
             object: SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                    sharedPref.edit().putInt("scroll-sensitive", progress).apply()
+                    sharedPref.edit().putInt("scroll-sensitive", (progress.toFloat() / 100f).toInt()).apply()
                     dispScrollParam(progress)
                 }
 

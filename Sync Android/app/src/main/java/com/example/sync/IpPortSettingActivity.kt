@@ -4,17 +4,21 @@ import android.app.Activity
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.widget.Toolbar
+import com.example.sync.Manager.*
+import org.json.JSONObject
 
 class IpPortSettingActivity : AppCompatActivity() {
 
     private lateinit var ipAddressEditText: EditText
     private lateinit var portNumberEditText: EditText
+    private lateinit var autoConnectingButton: Button
+    private lateinit var machineNameTextView: TextView
+    private lateinit var manualConnectSwitch: Switch
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,21 +31,50 @@ class IpPortSettingActivity : AppCompatActivity() {
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        setTitle("IPアドレス ポート番号")
+        this.title = ""
 
         val actionbar= supportActionBar
         if(actionbar!=null){
             actionbar.setDisplayHomeAsUpEnabled(true)
         }
 
+        val sharedPref = getSharedPreferences("ServerAddress", Context.MODE_PRIVATE)
         ipAddressEditText = findViewById(R.id.ipAddressEditText)
         portNumberEditText = findViewById(R.id.portNumberEditText)
-
-
-        val sharedPref = getSharedPreferences("ServerAddress", Context.MODE_PRIVATE)
-
+        machineNameTextView = findViewById(R.id.address_setting_machine_name_textView)
         ipAddressEditText.setText(sharedPref.getString("ip", "192.168.100.2"), TextView.BufferType.NORMAL)
         portNumberEditText.setText(sharedPref.getInt("port", 8080).toString(), TextView.BufferType.NORMAL)
+
+        // 自動接続ボタンイベント
+        autoConnectingButton = findViewById(R.id.autoConnectingButton)
+        autoConnectingButton.setOnClickListener {
+            val handler = Handler()
+            // ブロードキャストConnect
+            sharedPref.edit().putInt("port", 8080).apply()
+            receivedHostIp {
+                handler.post {
+                    ipAddressEditText.setText(it.getString("ip"))
+                    machineNameTextView.text = it.getString("machineName")
+                    Toast.makeText(this, "[%s]に接続されました".format(it.getString("ip")), Toast.LENGTH_SHORT).show()
+                }
+                sharedPref.edit().putString("ip", it.getString("ip")).apply()
+            }
+            sendBroadcast(this)
+        }
+
+        manualConnectSwitch = findViewById(R.id.manualConnectSwitch)
+        manualConnectSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+            when(isChecked) {
+                true -> {
+                    ipAddressEditText.isEnabled = true
+                    portNumberEditText.isEnabled = true
+                }
+                false -> {
+                    ipAddressEditText.isEnabled = false
+                    portNumberEditText.isEnabled = false
+                }
+            }
+        }
     }
 
 
@@ -76,5 +109,10 @@ class IpPortSettingActivity : AppCompatActivity() {
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    private val setConnetctedData = fun(ipAddress: String, machineName: String) {
+        ipAddressEditText.setText(ipAddress)
+        machineNameTextView.text = machineName
     }
 }

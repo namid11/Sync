@@ -29,43 +29,51 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/settingButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/main_menuButton"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/function_button"
+        android:elevation="5dp"
+        android:scaleType="fitCenter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/trackView"
-        app:srcCompat="@drawable/ui_setting" />
+        app:srcCompat="@drawable/home_ani_menu_to_cross" />
 
     <ImageButton
         android:id="@+id/forward_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/function_button"
-        app:layout_constraintEnd_toEndOf="@+id/settingButton"
+        android:elevation="5dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toEndOf="@+id/main_menuButton"
         app:layout_constraintTop_toBottomOf="@+id/backward_button"
         app:srcCompat="@drawable/ui_forward" />
 
     <ImageButton
         android:id="@+id/backward_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/function_button"
-        app:layout_constraintEnd_toEndOf="@+id/settingButton"
-        app:layout_constraintTop_toBottomOf="@+id/settingButton"
+        android:elevation="5dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toEndOf="@+id/main_menuButton"
+        app:layout_constraintTop_toBottomOf="@+id/main_menuButton"
         app:srcCompat="@drawable/ui_backward" />
 
     <ImageButton
         android:id="@+id/presen_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/function_button"
-        app:layout_constraintEnd_toEndOf="@+id/settingButton"
+        android:elevation="5dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toEndOf="@+id/main_menuButton"
         app:layout_constraintTop_toBottomOf="@+id/forward_button"
         app:srcCompat="@drawable/ui_presen_start" />
 

@@ -24,7 +24,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".SensitiveActivity" />
-        <activity android:name=".SettingMenuActivity" />
+        <activity
+            android:name=".SettingMenuActivity"
+            android:theme="@style/AppTheme.FullScreen"/>
         <activity
             android:name=".IpPortSettingActivity"
             android:label="IpPortSetting"

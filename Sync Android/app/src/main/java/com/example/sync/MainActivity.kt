@@ -2,6 +2,7 @@ package com.example.sync
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.AnimatedVectorDrawable
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -18,24 +19,21 @@ import com.example.sync.Manager.*
 import com.squareup.seismic.ShakeDetector
 import org.json.JSONObject
 
+
 class MainActivity : AppCompatActivity(), SensorEventListener, ShakeDetector.Listener {
 
     // UI
     private lateinit var trackView: View
     private lateinit var demoView: View
-    private lateinit var settingButton: ImageButton
+    private lateinit var menuButton: ImageButton
     private lateinit var forwardButton: ImageButton
     private lateinit var backwardButton: ImageButton
     private lateinit var presenButton: ImageButton
 
-    val accSensorManager = AccSensorManager(v_flag = false, buf_time = null)
+    private val accSensorManager = AccSensorManager(v_flag = false, buf_time = null)
     private lateinit var touchPointManager: TouchPointManager
-
     private val motionManager = MotionManager()
 
-    enum class REQUEST_INTENT {
-        SETTING
-    }
 
 
     // Creating View
@@ -45,48 +43,85 @@ class MainActivity : AppCompatActivity(), SensorEventListener, ShakeDetector.Lis
 
         touchPointManager = TouchPointManager(this)
 
-
         // ----- UI初期化 -----
         trackView = findViewById(R.id.trackView)
         trackView.setOnTouchListener { v, event ->  touchProcess(v, event)}
-
         demoView = findViewById(R.id.demoView)
-
-        settingButton = findViewById(R.id.settingButton)
-        settingButton.setOnClickListener {
-            val intent = Intent(this, SettingMenuActivity::class.java)
-//            startActivityForResult(intent, REQUEST_INTENT.SETTING.ordinal)
-            forwardButton.isVisible = true
-            forwardButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.button_show))
-
-            backwardButton.isVisible = true
-            backwardButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.button_show))
-
-            presenButton.isVisible = true
-            presenButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.button_show))
-        }
-
+        menuButton = findViewById(R.id.main_menuButton)
+        menuButton.tag = false
         forwardButton = findViewById(R.id.forward_button)
-        forwardButton.isVisible = false
-        forwardButton.setOnClickListener {
-
-        }
-
         backwardButton = findViewById(R.id.backward_button)
-        backwardButton.isVisible = false
-        backwardButton.setOnClickListener {
-
-        }
-
         presenButton = findViewById(R.id.presen_button)
-        presenButton.isVisible = false
-        presenButton.setOnClickListener {
 
+        // intentから情報取得
+        val mode = intent.getSerializableExtra("mode") as MODE
+        when (mode) {
+            MODE.TRACKPAD -> {
+//                Toast.makeText(this, "This mode is TRACKPAD", Toast.LENGTH_SHORT).show()
+                menuButton.isVisible = false
+                forwardButton.isVisible = false
+                backwardButton.isVisible = false
+                presenButton.isVisible = false
+            }
+            MODE.PRESENTATION -> {
+//                Toast.makeText(this, "This mode is PRESENTATION", Toast.LENGTH_SHORT).show()
+
+                menuButton.setOnClickListener {
+                    if (menuButton.tag as Boolean) {
+                        // hidden menu
+                        menuButton.setImageResource(R.drawable.home_ani_cross_to_menu)
+                        val drawable = menuButton.drawable as AnimatedVectorDrawable
+                        if (!drawable.isRunning) {
+                            drawable.start()
+                        }
+
+                        forwardButton.isVisible = false
+                        forwardButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.main_buttons_hidden))
+
+                        backwardButton.isVisible = false
+                        backwardButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.main_buttons_hidden))
+
+                        presenButton.isVisible = false
+                        presenButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.main_buttons_hidden))
+                    } else {
+                        // show menu
+                        menuButton.setImageResource(R.drawable.home_ani_menu_to_cross)
+                        val drawable = menuButton.drawable as AnimatedVectorDrawable
+                        if (!drawable.isRunning) {
+                            drawable.start()
+                        }
+
+                        forwardButton.isVisible = true
+                        forwardButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.main_buttons_show))
+
+                        backwardButton.isVisible = true
+                        backwardButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.main_buttons_show))
+
+                        presenButton.isVisible = true
+                        presenButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.main_buttons_show))
+                    }
+
+                    // change flag
+                    menuButton.tag = !(menuButton.tag as Boolean)
+
+                }
+
+
+                forwardButton.isVisible = false
+                forwardButton.setOnClickListener {
+
+                }
+
+                backwardButton.isVisible = false
+                backwardButton.setOnClickListener {
+
+                }
+
+                presenButton.isVisible = false
+                presenButton.setOnClickListener {
+                }
+            }
         }
-
-        // ブロードキャストConnect
-        receivedHostIp()
-        sendBroadcast(this)
     }
 
 
@@ -117,6 +152,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener, ShakeDetector.Lis
         if (sharedPref.getInt("port", 0) == 0) {
             sharedPref.edit().putInt("port", 8080).apply()
         }
+
+        touchPointManager.sensitiveReload()
     }
 
 
@@ -373,7 +410,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, ShakeDetector.Lis
         }
 
         // get sensitive value from sharedPref
-        private fun sensitiveReload() {
+        fun sensitiveReload() {
             val sharedPref = context.getSharedPreferences("Setting", Context.MODE_PRIVATE)
             this.cursorMagnification = sharedPref.getInt("cursor-sensitive", 100)
             this.scrollMagnification = sharedPref.getInt("scroll-sensitive", 100)
