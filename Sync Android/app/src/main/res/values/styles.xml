@@ -17,6 +17,23 @@
         <item name="android:background">@drawable/button_cyan_theme</item>
     </style>
 
+    <style name="FunctionButtonTheme" parent="Widget.AppCompat.ImageButton">
+        <item name="android:background">@drawable/function_button</item>
+        <item name="android:layout_height">56dp</item>
+        <item name="android:layout_width">56dp</item>
+        <item name="android:elevation">5dp</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:scaleType">fitCenter</item>
+    </style>
+
+    <style name="FooterButtonTheme" parent="Widget.AppCompat.ImageButton">
+        <item name="android:layout_width">48dp</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:background">@drawable/footer_button</item>
+        <item name="android:scaleType">fitCenter</item>
+        <item name="android:layout_marginVertical">8dp</item>
+    </style>
+
     <!--  SeekBar Custom  -->
     <style name="SeekBarTheme" parent="Widget.AppCompat.SeekBar">
         <!--    つまみの色    -->

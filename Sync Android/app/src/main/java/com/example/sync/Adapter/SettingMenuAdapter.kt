@@ -2,6 +2,7 @@ package com.example.sync.Adapter
 
 import android.animation.AnimatorInflater
 import android.animation.AnimatorSet
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.util.Log
@@ -20,7 +21,7 @@ import com.example.sync.SettingMenuActivity
 
 data class SettingMenuItemData(val name: String, val imgSrc: Int, val clickListener: (View) -> Unit)
 
-class SettingMenuAdapter(val context: AppCompatActivity, private val menuData: List<SettingMenuItemData>): RecyclerView.Adapter<SettingMenuAdapter.DetectLabelsViewHolder>() {
+class SettingMenuAdapter(val context: Context, private val menuData: List<SettingMenuItemData>): RecyclerView.Adapter<SettingMenuAdapter.DetectLabelsViewHolder>() {
     private val inflater = LayoutInflater.from(context)
 
     @RequiresApi(Build.VERSION_CODES.O)

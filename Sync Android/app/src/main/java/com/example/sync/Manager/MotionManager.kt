@@ -2,9 +2,11 @@ package com.example.sync.Manager
 
 import android.util.Log
 import android.view.MotionEvent
-import com.example.sync.MainActivity
+import com.example.sync.Fragment.MotionpadFragment
+import com.example.sync.PresentationModeActivity
 import java.lang.Exception
 import kotlin.math.abs
+import com.example.sync.Fragment.MotionpadFragment.TouchPoint
 
 enum class GESTURE {
     FIRST, L_CLICK, R_CLICK, MOVE, SCROLL, L_SWIPE, R_SWIPE
@@ -25,16 +27,16 @@ data class EventData (
     val time: Long,
     val action: Int,
     val pointerCount: Int,
-    val touchPoints: List<MainActivity.TouchPoint>
+    val touchPoints: List<TouchPoint>
 )
 
 fun MotionEventToEventData(event: MotionEvent): EventData {
-    val touchPoints: MutableList<MainActivity.TouchPoint> = mutableListOf()
+    val touchPoints: MutableList<TouchPoint> = mutableListOf()
     for (i in 0 until event.pointerCount) {
         val pid = event.getPointerId(i)
         try {
             touchPoints.add(
-                MainActivity.TouchPoint(
+                TouchPoint(
                     x = event.getX(
                         pid
                     ), y = event.getY(pid)
