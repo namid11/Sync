@@ -4,77 +4,58 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".PresentationModeActivity">
 
-    <View
-        android:id="@+id/trackView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#F0F0F0"
+    <fragment
+        android:id="@+id/fragment"
+        android:name="com.example.sync.Fragment.MotionpadFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <View
-        android:id="@+id/demoView"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:background="@drawable/shape_rounded_corners_10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/trackView"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/main_menuButton"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
+        style="@style/FunctionButtonTheme"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:background="@drawable/function_button"
-        android:elevation="5dp"
-        android:scaleType="fitCenter"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/trackView"
-        app:srcCompat="@drawable/home_ani_menu_to_cross" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ani_menu_to_cross" />
 
     <ImageButton
         android:id="@+id/forward_button"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
+        style="@style/FunctionButtonTheme"
         android:layout_marginTop="16dp"
-        android:background="@drawable/function_button"
-        android:elevation="5dp"
-        android:scaleType="fitCenter"
         app:layout_constraintEnd_toEndOf="@+id/main_menuButton"
         app:layout_constraintTop_toBottomOf="@+id/backward_button"
         app:srcCompat="@drawable/ui_forward" />
 
     <ImageButton
         android:id="@+id/backward_button"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
+        style="@style/FunctionButtonTheme"
         android:layout_marginTop="16dp"
-        android:background="@drawable/function_button"
-        android:elevation="5dp"
-        android:scaleType="fitCenter"
         app:layout_constraintEnd_toEndOf="@+id/main_menuButton"
         app:layout_constraintTop_toBottomOf="@+id/main_menuButton"
         app:srcCompat="@drawable/ui_backward" />
 
     <ImageButton
         android:id="@+id/presen_button"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
+        style="@style/FunctionButtonTheme"
         android:layout_marginTop="16dp"
-        android:background="@drawable/function_button"
-        android:elevation="5dp"
-        android:scaleType="fitCenter"
         app:layout_constraintEnd_toEndOf="@+id/main_menuButton"
         app:layout_constraintTop_toBottomOf="@+id/forward_button"
         app:srcCompat="@drawable/ui_presen_start" />
+
+    <ImageButton
+        android:id="@+id/activity_finished_button"
+        style="@style/FunctionButtonTheme"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toStartOf="@+id/main_menuButton"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ui_direction_left" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

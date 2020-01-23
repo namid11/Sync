@@ -25,22 +25,14 @@ class SensitiveActivity : AppCompatActivity() {
 
         // sharedPrefからデータ呼び出し
         val sharedPref = getSharedPreferences("Setting", Context.MODE_PRIVATE)
-        val magCursor = sharedPref.getInt("cursor-sensitive", 100)
-        val magScroll = sharedPref.getInt("scroll-sensitive", 100)
-        cursorSensBar.progress = magCursor
-        scrollSensBar.progress = magScroll
-
-        // 初期Disp処理
-        dispCursorParam(magCursor)
-        dispScrollParam(magScroll)
 
         // シークバーイベント処理
         cursorSensBar.setOnSeekBarChangeListener(
             object: SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                     if (progress < 50) return
-                    sharedPref.edit().putInt("cursor-sensitive", (progress.toFloat() / 100f).toInt()).apply()
-                    dispCursorParam(progress)
+                    sharedPref.edit().putFloat("cursor_sensitive", progress.toFloat() / 100f).apply()
+                    dispCursorParam(progress.toFloat())
                 }
 
                 override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -56,8 +48,8 @@ class SensitiveActivity : AppCompatActivity() {
         scrollSensBar.setOnSeekBarChangeListener(
             object: SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                    sharedPref.edit().putInt("scroll-sensitive", (progress.toFloat() / 100f).toInt()).apply()
-                    dispScrollParam(progress)
+                    sharedPref.edit().putFloat("scroll_sensitive", progress.toFloat() / 100f).apply()
+                    dispScrollParam(progress.toFloat())
                 }
 
                 override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -72,12 +64,27 @@ class SensitiveActivity : AppCompatActivity() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
 
-    private fun dispCursorParam(param: Int) {
-        cursorParamTextView.text = "x%.1f".format(param.toFloat() / 100f)
+        // sharedPrefからデータ呼び出し
+        val sharedPref = getSharedPreferences("Setting", Context.MODE_PRIVATE)
+        val magCursor = sharedPref.getFloat("cursor_sensitive", 1f)
+        val magScroll = sharedPref.getFloat("scroll_sensitive", 1f)
+        cursorSensBar.progress = (magCursor * 100f).toInt()
+        scrollSensBar.progress = (magScroll * 100f).toInt()
+
+        // 初期Display処理
+        dispCursorParam(magCursor * 100f)
+        dispScrollParam(magScroll * 100f)
     }
 
-    private fun dispScrollParam(param: Int) {
-        scrollParamTextView.text = "x%.1f".format(param.toFloat() / 100f)
+
+    private fun dispCursorParam(param: Float) {
+        cursorParamTextView.text = "x%.1f".format(param / 100f)
+    }
+
+    private fun dispScrollParam(param: Float) {
+        scrollParamTextView.text = "x%.1f".format(param / 100f)
     }
 }

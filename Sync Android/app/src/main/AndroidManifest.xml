@@ -15,6 +15,9 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
+            android:name=".TrackpadModeActivity"
+            android:theme="@style/AppTheme.FullScreen" />
+        <activity
             android:name=".HomeActivity"
             android:theme="@style/AppTheme.FullScreen">
             <intent-filter>
@@ -26,16 +29,15 @@
         <activity android:name=".SensitiveActivity" />
         <activity
             android:name=".SettingMenuActivity"
-            android:theme="@style/AppTheme.FullScreen"/>
+            android:theme="@style/AppTheme.FullScreen" />
         <activity
             android:name=".IpPortSettingActivity"
             android:label="IpPortSetting"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".MainActivity"
+            android:name=".PresentationModeActivity"
             android:label="Sync"
-            android:theme="@style/AppTheme.FullScreen">
-        </activity>
+            android:theme="@style/AppTheme.FullScreen" />
 
         <meta-data
             android:name="preloaded_fonts"

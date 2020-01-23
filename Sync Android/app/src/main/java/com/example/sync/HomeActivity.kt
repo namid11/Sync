@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageButton
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.example.sync.Manager.*
 
 class HomeActivity : AppCompatActivity() {
 
@@ -21,14 +20,12 @@ class HomeActivity : AppCompatActivity() {
         presentationConstraintView = findViewById(R.id.presentation_constrainView)
 
         trackpadConstraintView.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            intent.putExtra("mode", MODE.TRACKPAD)
+            val intent = Intent(this, TrackpadModeActivity::class.java)
             startActivity(intent)
         }
 
         presentationConstraintView.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            intent.putExtra("mode", MODE.PRESENTATION)
+            val intent = Intent(this, PresentationModeActivity::class.java)
             startActivity(intent)
         }
 

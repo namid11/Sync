@@ -4,4 +4,5 @@
     <string name="no_title"></string>
     <string name="trackpad">Trackpad</string>
     <string name="home">Home</string>
+    <string name="ip_address">IP Address</string>
 </resources>
