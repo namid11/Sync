@@ -272,8 +272,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener, ShakeDetector.Lis
 
 
         // 感度
-        private var cursorMagnification = 100
-        private var scrollMagnification = 100
+        private var cursorMagnification = 100f
+        private var scrollMagnification = 100f
 
         // 照度フラグ
         private var lightOn: Boolean = false
@@ -320,8 +320,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener, ShakeDetector.Lis
             postJsonObj.put("key", "moved")
 
             postJsonObj.put("context", JSONObject().apply {
-                put("x", x * (cursorMagnification.toFloat() / 100f))
-                put("y", y * (cursorMagnification.toFloat() / 100f))
+                put("x", x * (cursorMagnification))
+                put("y", y * (cursorMagnification))
             })
 
             runSocket(
@@ -330,15 +330,15 @@ class MainActivity : AppCompatActivity(), SensorEventListener, ShakeDetector.Lis
                 postJsonObj
             )
 
-            Log.d("[MOTION DEBUG]", "[move] x: %f, y: %f".format(x, y))
+            //Log.d("[MOTION DEBUG]", "[move] x: %f, y: %f".format(x, y))
         }
 
         fun scroll(x: Float, y: Float) {
             val postJsonObj = JSONObject()
             postJsonObj.put("key", "scroll")
             postJsonObj.put("context", JSONObject().apply {
-                put("x", (x*10 * (scrollMagnification.toFloat() / 100f)).toInt())
-                put("y", (y*10 * (scrollMagnification.toFloat() / 100f)).toInt())
+                put("x", (x*10 * (scrollMagnification)).toInt())
+                put("y", (y*10 * (scrollMagnification)).toInt())
             })
             runSocket(
                 ipPortManager.getIP(),
@@ -346,7 +346,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, ShakeDetector.Lis
                 postJsonObj
             )
 
-            Log.d("[MOTION DEBUG]", "[scroll] x: %f, y: %f".format(x, y))
+            //Log.d("[MOTION DEBUG]", "[scroll] x: %f, y: %f".format(x, y))
         }
 
         fun swipeL() {
@@ -412,8 +412,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener, ShakeDetector.Lis
         // get sensitive value from sharedPref
         fun sensitiveReload() {
             val sharedPref = context.getSharedPreferences("Setting", Context.MODE_PRIVATE)
-            this.cursorMagnification = sharedPref.getInt("cursor-sensitive", 100)
-            this.scrollMagnification = sharedPref.getInt("scroll-sensitive", 100)
+            this.cursorMagnification = sharedPref.getFloat("cursor_sensitive", 1f)
+            this.scrollMagnification = sharedPref.getFloat("scroll_sensitive", 1f)
         }
     }
 }

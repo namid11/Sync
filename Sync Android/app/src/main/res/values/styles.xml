@@ -9,15 +9,50 @@
 
     </style>
 
+<!--    Button Theme   -->
+    <style name="ButtonTheme" parent="Widget.AppCompat.Button">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/colorPrimaryWhite</item>
+        <item name="android:fontFamily">@font/muli_extralight</item>
+        <item name="android:background">@drawable/button_cyan_theme</item>
+    </style>
+
     <!--  SeekBar Custom  -->
     <style name="SeekBarTheme" parent="Widget.AppCompat.SeekBar">
         <!--    つまみの色    -->
-        <item name="android:thumbTint">@color/colorPrimary</item>
+        <item name="android:thumbTint">@color/colorPrimaryWhite</item>
         <!--    よくわからん    -->
         <item name="android:tickMarkTint">@color/colorPrimary</item>
         <!--    シークバーの色    -->
-        <item name="android:progressTint">@color/colorPrimary</item>
+        <item name="android:progressTint">@color/colorPrimaryWhite</item>
+        <item name="android:background">@drawable/seekbar_cyan_theme</item>
     </style>
+
+<!--    Switch Custom   -->
+    <style name="SwitchTheme" parent="Widget.AppCompat.CompoundButton.Switch">
+        <item name="android:switchPadding">10dp</item>
+        <item name="android:background">@drawable/switch_cyan_theme</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/colorPrimaryWhite</item>
+        <item name="android:trackTint">@color/colorPrimaryDark</item>
+        <item name="android:fontFamily">@font/muli_extralight</item>
+    </style>
+
+<!--    TextView Custom   -->
+    <style name="TextViewTheme" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:fontFamily">@font/muli_extralight</item>
+    </style>
+
+<!--    EditText Custom   -->
+    <style name="EditTextTheme" parent="Widget.AppCompat.EditText">
+        <item name="colorControlActivated" tools:targetApi="lollipop">@color/colorPrimary</item>
+        <item name="colorControlNormal" tools:targetApi="lollipop">@color/colorPrimaryDark</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:fontFamily">@font/muli_extralight</item>
+    </style>
+
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -34,9 +69,5 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="EditTextTheme" >
-        <item name="colorControlActivated" tools:targetApi="lollipop">@color/colorPrimary</item>
-        <item name="colorControlNormal" tools:targetApi="lollipop">@color/colorPrimaryDark</item>
-    </style>
 
 </resources>

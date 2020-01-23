@@ -134,7 +134,7 @@ class MotionManager {
                     1 -> {
                         when (defineGesture) {
                             DEFINEGESTURE.MOVE -> {
-                                if (tapLag <= 300) {
+                                if (tapLag <= 150) {
                                     reset()
                                     return MotionData(
                                         GESTURE.L_CLICK
