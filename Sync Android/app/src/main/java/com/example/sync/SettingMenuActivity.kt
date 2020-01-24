@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.view.KeyEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
@@ -22,6 +23,12 @@ class SettingMenuActivity : AppCompatActivity() {
 
     private lateinit var settingRecyclerView: RecyclerView
     private lateinit var containerConstraintLayout: ConstraintLayout
+
+
+    enum class FOCUSLAYOUT {
+        MENU, NETWORK, SENSITIVE
+    }
+    private var focusLayout: FOCUSLAYOUT = FOCUSLAYOUT.MENU
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,20 +49,32 @@ class SettingMenuActivity : AppCompatActivity() {
         settingRecyclerView.layoutManager = GridLayoutManager(this, 2)
     }
 
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            when(focusLayout) {
+                FOCUSLAYOUT.NETWORK -> {
+                    val connectSettingView: View = containerConstraintLayout.findViewById(R.id.connect_setting_layout)
+                    hiddenItemView(connectSettingView)
+                    focusLayout = FOCUSLAYOUT.MENU
+                    return false
+                }
+                FOCUSLAYOUT.SENSITIVE -> {
+                    val sensitiveSettingView: View = containerConstraintLayout.findViewById(R.id.sensitive_setting_layout)
+                    hiddenItemView(sensitiveSettingView)
+                    focusLayout = FOCUSLAYOUT.MENU
+                    return false
+                }
+            }
+        }
+        return super.onKeyDown(keyCode, event)
+    }
 
     private val menuItemNetworkListener: (View) -> Unit = {
+        focusLayout = FOCUSLAYOUT.NETWORK
+
         val parentView = layoutInflater.inflate(R.layout.layout_connect_setting, containerConstraintLayout)
         val connectSettingView: View = parentView.findViewById(R.id.connect_setting_layout)
-        connectSettingView.setOnTouchListener { _, _ -> true }
-        connectSettingView.alpha = 0f
-        connectSettingView.top = parentView.height
-        ViewCompat.animate(connectSettingView).apply {
-            duration = 500
-            y(0f)
-            alpha(1f)
-            interpolator = DecelerateInterpolator()
-            start()
-        }
+        showItemView(connectSettingView)
 
         val sharedPref = getSharedPreferences("ServerAddress", Context.MODE_PRIVATE)
         val ipAddressEditText: EditText = parentView.findViewById(R.id.address_setting_manual_place_ip_address_edit_text)
@@ -99,43 +118,16 @@ class SettingMenuActivity : AppCompatActivity() {
 
         val backButton: ImageButton = connectSettingView.findViewById(R.id.activity_finished_button)
         backButton.setOnClickListener {
-            ViewCompat.animate(connectSettingView).apply {
-                duration = 500
-                y(parentView.height.toFloat())
-                alpha(0f)
-                interpolator = AccelerateInterpolator()
-                setListener(
-                    object: ViewPropertyAnimatorListener {
-                        override fun onAnimationEnd(view: View?) {
-                            (parentView as ViewGroup).removeView(connectSettingView)
-                        }
-
-                        override fun onAnimationCancel(view: View?) {
-                        }
-
-                        override fun onAnimationStart(view: View?) {
-                        }
-                    }
-                )
-                start()
-            }
-
+            hiddenItemView(connectSettingView)
         }
     }
 
     private val menuItemSensitiveListener: (View) -> Unit = {
+        focusLayout = FOCUSLAYOUT.SENSITIVE
+
         val parentView = layoutInflater.inflate(R.layout.layout_sensitive_setting, containerConstraintLayout)
         val sensitiveSettingView: View = parentView.findViewById(R.id.sensitive_setting_layout)
-        sensitiveSettingView.setOnTouchListener { _, _ -> true }
-        sensitiveSettingView.alpha = 0f
-        sensitiveSettingView.top = parentView.height
-        ViewCompat.animate(sensitiveSettingView).apply {
-            duration = 500
-            y(0f)
-            alpha(1f)
-            interpolator = DecelerateInterpolator()
-            start()
-        }
+        showItemView(sensitiveSettingView)
 
         val cursorSensBar: SeekBar = parentView.findViewById(R.id.cursor_sensitive_bar)
         val scrollSensBar: SeekBar = parentView.findViewById(R.id.scroll_sensitive_bar)
@@ -199,27 +191,47 @@ class SettingMenuActivity : AppCompatActivity() {
 
         val backButton: ImageButton = sensitiveSettingView.findViewById(R.id.activity_finished_button)
         backButton.setOnClickListener {
-            ViewCompat.animate(sensitiveSettingView).apply {
-                duration = 500
-                y(parentView.height.toFloat())
-                alpha(0f)
-                interpolator = AccelerateInterpolator()
-                setListener(
-                    object: ViewPropertyAnimatorListener {
-                        override fun onAnimationEnd(view: View?) {
-                            (parentView as ViewGroup).removeView(sensitiveSettingView)
-                        }
+            hiddenItemView(sensitiveSettingView)
+        }
+    }
 
-                        override fun onAnimationCancel(view: View?) {
-                        }
+    private fun showItemView(view: View) {
+        val parentView = view.parent as View
+        view.setOnTouchListener { _, _ -> true }
+        view.alpha = 0f
+        view.top = (parentView.height * 0.5f).toInt()
+        ViewCompat.animate(view).apply {
+            duration = 500
+            y(0f)
+            alpha(1f)
+            interpolator = DecelerateInterpolator()
+            start()
+        }
+    }
 
-                        override fun onAnimationStart(view: View?) {
-                        }
+    private fun hiddenItemView(view: View) {
+        focusLayout = FOCUSLAYOUT.MENU
 
+        val parentView = view.parent as View
+        ViewCompat.animate(view).apply {
+            duration = 500
+            y(parentView.height * 0.5f)
+            alpha(0f)
+            interpolator = AccelerateInterpolator()
+            setListener(
+                object: ViewPropertyAnimatorListener {
+                    override fun onAnimationEnd(view: View?) {
+                        (parentView as ViewGroup).removeView(view)
                     }
-                )
-                start()
-            }
+
+                    override fun onAnimationCancel(view: View?) {
+                    }
+
+                    override fun onAnimationStart(view: View?) {
+                    }
+                }
+            )
+            start()
         }
     }
 }

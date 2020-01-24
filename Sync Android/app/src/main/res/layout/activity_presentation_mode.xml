@@ -42,12 +42,12 @@
         app:srcCompat="@drawable/ui_backward" />
 
     <ImageButton
-        android:id="@+id/presen_button"
+        android:id="@+id/laser_button"
         style="@style/FunctionButtonTheme"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="@+id/main_menuButton"
         app:layout_constraintTop_toBottomOf="@+id/forward_button"
-        app:srcCompat="@drawable/ui_presen_start" />
+        app:srcCompat="@drawable/ui_target" />
 
     <ImageButton
         android:id="@+id/activity_finished_button"

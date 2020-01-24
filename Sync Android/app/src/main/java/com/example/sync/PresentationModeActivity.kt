@@ -7,12 +7,17 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import android.media.Image
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.animation.AnimationUtils
+import android.widget.Button
 import android.widget.ImageButton
 import androidx.core.view.isVisible
+import com.example.sync.Manager.IpPortManager
+import com.example.sync.Manager.runSocket
 import com.squareup.seismic.ShakeDetector
+import org.json.JSONObject
 
 
 class PresentationModeActivity : AppCompatActivity(), SensorEventListener, ShakeDetector.Listener {
@@ -21,21 +26,27 @@ class PresentationModeActivity : AppCompatActivity(), SensorEventListener, Shake
     private lateinit var menuButton: ImageButton
     private lateinit var forwardButton: ImageButton
     private lateinit var backwardButton: ImageButton
-    private lateinit var presentationButton: ImageButton
-    private lateinit var finishedAcitivityButton: ImageButton
+    private lateinit var laserButton: ImageButton
+    private lateinit var finishedActivityButton: ImageButton
+
+    private lateinit var ipPortManager: IpPortManager
 
     // Creating View
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_presentation_mode)
 
+        ipPortManager = IpPortManager(this)
+
         // ----- UI初期化 -----
         menuButton = findViewById(R.id.main_menuButton)
         menuButton.tag = false
         forwardButton = findViewById(R.id.forward_button)
         backwardButton = findViewById(R.id.backward_button)
-        presentationButton = findViewById(R.id.presen_button)
-        finishedAcitivityButton = findViewById(R.id.activity_finished_button)
+        laserButton = findViewById(R.id.laser_button)
+        finishedActivityButton = findViewById(R.id.activity_finished_button)
+
+        val drawerGroup: List<ImageButton> = listOf(forwardButton, backwardButton, laserButton)
 
         menuButton.setOnClickListener {
             if (menuButton.tag as Boolean) {
@@ -46,17 +57,13 @@ class PresentationModeActivity : AppCompatActivity(), SensorEventListener, Shake
                     drawable.start()
                 }
 
-                forwardButton.isVisible = false
-                forwardButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.main_buttons_hidden))
+                for (view in drawerGroup) {
+                    view.isVisible = false
+                    view.startAnimation(AnimationUtils.loadAnimation(this, R.anim.main_buttons_hidden))
+                }
 
-                backwardButton.isVisible = false
-                backwardButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.main_buttons_hidden))
-
-                presentationButton.isVisible = false
-                presentationButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.main_buttons_hidden))
-
-                finishedAcitivityButton.isVisible = false
-                finishedAcitivityButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.main_buttons_hidden_side))
+                finishedActivityButton.isVisible = false
+                finishedActivityButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.main_buttons_hidden_side))
             } else {
                 // show menu
                 menuButton.setImageResource(R.drawable.ani_menu_to_cross)
@@ -65,17 +72,13 @@ class PresentationModeActivity : AppCompatActivity(), SensorEventListener, Shake
                     drawable.start()
                 }
 
-                forwardButton.isVisible = true
-                forwardButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.main_buttons_show))
+                for (view in drawerGroup) {
+                    view.isVisible = true
+                    view.startAnimation(AnimationUtils.loadAnimation(this, R.anim.main_buttons_show))
+                }
 
-                backwardButton.isVisible = true
-                backwardButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.main_buttons_show))
-
-                presentationButton.isVisible = true
-                presentationButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.main_buttons_show))
-
-                finishedAcitivityButton.isVisible = true
-                finishedAcitivityButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.main_buttons_show_side))
+                finishedActivityButton.isVisible = true
+                finishedActivityButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.main_buttons_show_side))
             }
 
             // change flag
@@ -86,20 +89,27 @@ class PresentationModeActivity : AppCompatActivity(), SensorEventListener, Shake
 
         forwardButton.isVisible = false
         forwardButton.setOnClickListener {
-
+            val sendJson = JSONObject()
+            sendJson.put("key", "pp_next")
+            operateReqest(sendJson)
         }
 
         backwardButton.isVisible = false
         backwardButton.setOnClickListener {
-
+            val sendJson = JSONObject()
+            sendJson.put("key", "pp_back")
+            operateReqest(sendJson)
         }
 
-        presentationButton.isVisible = false
-        presentationButton.setOnClickListener {
+        laserButton.isVisible = false
+        laserButton.setOnClickListener {
+            val sendJson = JSONObject()
+            sendJson.put("key", "pp_laser")
+            operateReqest(sendJson)
         }
 
-        finishedAcitivityButton.isVisible = false
-        finishedAcitivityButton.setOnClickListener {
+        finishedActivityButton.isVisible = false
+        finishedActivityButton.setOnClickListener {
             finish()
         }
     }
@@ -130,6 +140,8 @@ class PresentationModeActivity : AppCompatActivity(), SensorEventListener, Shake
         if (sharedPref.getInt("port", 0) == 0) {
             sharedPref.edit().putInt("port", 8080).apply()
         }
+
+        ipPortManager.reloadAddressInfo()
     }
 
 
@@ -182,5 +194,9 @@ class PresentationModeActivity : AppCompatActivity(), SensorEventListener, Shake
                 }
             }
         }
+    }
+
+    private fun operateReqest(send: JSONObject) {
+        runSocket(ipPortManager.getIP(), ipPortManager.getPort(), send)
     }
 }
