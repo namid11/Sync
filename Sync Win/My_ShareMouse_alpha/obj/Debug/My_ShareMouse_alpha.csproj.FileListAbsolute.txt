@@ -8,3 +8,32 @@ C:\Users\hiroy\Project\VS_Project\My_ShareMouse_alpha\My_ShareMouse_alpha\obj\De
 C:\Users\hiroy\Project\VS_Project\My_ShareMouse_alpha\My_ShareMouse_alpha\obj\Debug\My_ShareMouse_alpha.exe
 C:\Users\hiroy\Project\VS_Project\My_ShareMouse_alpha\My_ShareMouse_alpha\obj\Debug\My_ShareMouse_alpha.pdb
 C:\Users\hiroy\Project\VS_Project\My_ShareMouse_alpha\My_ShareMouse_alpha\obj\Debug\My_ShareMouse_alpha.Form1.resources
+C:\Users\16224\OneDrive - 独立行政法人 国立高等専門学校機構\創作実習\My_ShareMouse_alpha\My_ShareMouse_alpha\obj\Debug\My_ShareMouse_alpha.csprojAssemblyReference.cache
+C:\Users\16224\OneDrive - 独立行政法人 国立高等専門学校機構\創作実習\My_ShareMouse_alpha\My_ShareMouse_alpha\obj\Debug\My_ShareMouse_alpha.csproj.GenerateResource.cache
+C:\Users\hiroy\OneDrive - 独立行政法人 国立高等専門学校機構\創作実習\My_ShareMouse_alpha\My_ShareMouse_alpha\obj\Debug\My_ShareMouse_alpha.csprojAssemblyReference.cache
+C:\Users\hiroy\OneDrive - 独立行政法人 国立高等専門学校機構\創作実習\My_ShareMouse_alpha\My_ShareMouse_alpha\obj\Debug\My_ShareMouse_alpha.csproj.GenerateResource.cache
+C:\Users\hiroy\OneDrive - 独立行政法人 国立高等専門学校機構\創作実習\My_ShareMouse_alpha\My_ShareMouse_alpha\obj\Debug\Sync.Properties.Resources.resources
+C:\Users\hiroy\OneDrive - 独立行政法人 国立高等専門学校機構\創作実習\My_ShareMouse_alpha\My_ShareMouse_alpha\bin\Debug\Sync.exe.config
+C:\Users\hiroy\OneDrive - 独立行政法人 国立高等専門学校機構\創作実習\My_ShareMouse_alpha\My_ShareMouse_alpha\bin\Debug\Sync.exe
+C:\Users\hiroy\OneDrive - 独立行政法人 国立高等専門学校機構\創作実習\My_ShareMouse_alpha\My_ShareMouse_alpha\bin\Debug\Sync.pdb
+C:\Users\hiroy\OneDrive - 独立行政法人 国立高等専門学校機構\創作実習\My_ShareMouse_alpha\My_ShareMouse_alpha\obj\Debug\Sync.exe
+C:\Users\hiroy\OneDrive - 独立行政法人 国立高等専門学校機構\創作実習\My_ShareMouse_alpha\My_ShareMouse_alpha\obj\Debug\Sync.pdb
+C:\Users\16224\OneDrive - 独立行政法人 国立高等専門学校機構\創作実習\My_ShareMouse_alpha\My_ShareMouse_alpha\bin\Debug\Sync.exe.config
+C:\Users\16224\OneDrive - 独立行政法人 国立高等専門学校機構\創作実習\My_ShareMouse_alpha\My_ShareMouse_alpha\bin\Debug\Sync.exe
+C:\Users\16224\OneDrive - 独立行政法人 国立高等専門学校機構\創作実習\My_ShareMouse_alpha\My_ShareMouse_alpha\bin\Debug\Sync.pdb
+C:\Users\16224\OneDrive - 独立行政法人 国立高等専門学校機構\創作実習\My_ShareMouse_alpha\My_ShareMouse_alpha\obj\Debug\Sync.Form1.resources
+C:\Users\16224\OneDrive - 独立行政法人 国立高等専門学校機構\創作実習\My_ShareMouse_alpha\My_ShareMouse_alpha\obj\Debug\Sync.Properties.Resources.resources
+C:\Users\16224\OneDrive - 独立行政法人 国立高等専門学校機構\創作実習\My_ShareMouse_alpha\My_ShareMouse_alpha\obj\Debug\Sync.exe
+C:\Users\16224\OneDrive - 独立行政法人 国立高等専門学校機構\創作実習\My_ShareMouse_alpha\My_ShareMouse_alpha\obj\Debug\Sync.pdb
+C:\Users\hiroy\OneDrive - 独立行政法人 国立高等専門学校機構\創作実習\My_ShareMouse_alpha\My_ShareMouse_alpha\obj\Debug\Sync.AutoConnectingForm.resources
+C:\Users\hiroy\OneDrive - 独立行政法人 国立高等専門学校機構\創作実習\My_ShareMouse_alpha\My_ShareMouse_alpha\obj\Debug\Sync.SettingForm.resources
+C:\Users\hiroy\Project\Sync\Sync Win\My_ShareMouse_alpha\bin\Debug\Sync.exe.config
+C:\Users\hiroy\Project\Sync\Sync Win\My_ShareMouse_alpha\bin\Debug\Sync.exe
+C:\Users\hiroy\Project\Sync\Sync Win\My_ShareMouse_alpha\bin\Debug\Sync.pdb
+C:\Users\hiroy\Project\Sync\Sync Win\My_ShareMouse_alpha\obj\Debug\My_ShareMouse_alpha.csprojAssemblyReference.cache
+C:\Users\hiroy\Project\Sync\Sync Win\My_ShareMouse_alpha\obj\Debug\Sync.AutoConnectingForm.resources
+C:\Users\hiroy\Project\Sync\Sync Win\My_ShareMouse_alpha\obj\Debug\Sync.SettingForm.resources
+C:\Users\hiroy\Project\Sync\Sync Win\My_ShareMouse_alpha\obj\Debug\Sync.Properties.Resources.resources
+C:\Users\hiroy\Project\Sync\Sync Win\My_ShareMouse_alpha\obj\Debug\My_ShareMouse_alpha.csproj.GenerateResource.cache
+C:\Users\hiroy\Project\Sync\Sync Win\My_ShareMouse_alpha\obj\Debug\Sync.exe
+C:\Users\hiroy\Project\Sync\Sync Win\My_ShareMouse_alpha\obj\Debug\Sync.pdb
