@@ -4,21 +4,21 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace My_ShareMouse_alpha {
+namespace Sync {
     static class Program {
         /// <summary>
         /// アプリケーションのメイン エントリ ポイントです。
         /// </summary>
         /// 
 
-        static Form1 form = null;
+        static SettingForm form = null;
         [STAThread]
         static void Main() {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             // Formを表示させないための処理
             if(form == null) {
-                form = new Form1();   // Formのインスタンスは作っておくらしい
+                form = new SettingForm();   // Formのインスタンスは作っておくらしい
                 Application.Run();          // Formインスタンスを渡さずにRun
             }
         }
