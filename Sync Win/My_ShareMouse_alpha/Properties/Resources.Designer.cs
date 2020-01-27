@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace My_ShareMouse_alpha.Properties {
+namespace Sync.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace My_ShareMouse_alpha.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("My_ShareMouse_alpha.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Sync.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -76,6 +76,26 @@ namespace My_ShareMouse_alpha.Properties {
         internal static System.Drawing.Icon NotifyIcon {
             get {
                 object obj = ResourceManager.GetObject("NotifyIcon", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon Sync_Icon {
+            get {
+                object obj = ResourceManager.GetObject("Sync_Icon", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   (アイコン) に類似した型 System.Drawing.Icon のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Icon Sync_Icon_Transparent {
+            get {
+                object obj = ResourceManager.GetObject("Sync_Icon_Transparent", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
             }
         }

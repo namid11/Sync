@@ -1,4 +1,16 @@
 {
-  "ip_address": "192.168.100.4",
-  "port_number":  "8080"
+  "default_data": {
+    "port_number": 8080,
+    "subnet_mask": "255.255.255.0"
+  },
+
+  "saved": {
+    "ip_address": "",
+    "port_number": 8080,
+    "subnet_mask": "255.255.255.0"
+  },
+
+  "local": {
+    "auto_start": false
+  }
 }
