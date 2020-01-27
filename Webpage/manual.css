@@ -1,0 +1,17 @@
+/* font-family: 'Muli', sans-serif; */
+@import url("https://fonts.googleapis.com/css?family=Muli&display=swap");
+/* font-family: 'Baloo Bhai', cursive; */
+@import url("https://fonts.googleapis.com/css?family=Baloo+Bhai&display=swap");
+/* font-family: 'Noto Sans JP', sans-serif; */
+@import url("https://fonts.googleapis.com/css?family=Noto+Sans+JP:300&display=swap");
+
+* {
+  font-family: "Noto Sans JP", sans-serif;
+}
+
+.title {
+  font-family: "Baloo Bhai", cursive;
+}
+
+.boost {
+}

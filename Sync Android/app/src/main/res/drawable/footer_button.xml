@@ -7,10 +7,10 @@
                 android:height="32dp"/>
             <solid android:color="#10FFFFFF"/>
             <padding
-                android:top="8dp"
-                android:bottom="8dp"
-                android:right="8dp"
-                android:left="8dp"/>
+                android:top="16dp"
+                android:bottom="16dp"
+                android:right="16dp"
+                android:left="16dp"/>
             <corners
                 android:radius="24dp"/>
         </shape>
@@ -22,10 +22,10 @@
                 android:height="32dp"/>
             <solid android:color="#00FFFFFF" />
             <padding
-                android:top="8dp"
-                android:bottom="8dp"
-                android:right="8dp"
-                android:left="8dp"/>
+                android:top="16dp"
+                android:bottom="16dp"
+                android:right="16dp"
+                android:left="16dp"/>
             <corners
                 android:radius="24dp"/>
         </shape>
