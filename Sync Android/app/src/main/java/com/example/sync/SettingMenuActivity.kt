@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
@@ -67,6 +68,9 @@ class SettingMenuActivity : AppCompatActivity() {
                     focusLayout = FOCUSLAYOUT.MENU
                     return false
                 }
+                else -> {
+
+                }
             }
         }
         return super.onKeyDown(keyCode, event)
@@ -89,6 +93,17 @@ class SettingMenuActivity : AppCompatActivity() {
         // 自動接続ボタンイベント
         val autoConnectingButton: Button = parentView.findViewById(R.id.auto_connect_button)
         autoConnectingButton.setOnClickListener {
+            val dialogView = layoutInflater.inflate(R.layout.dialog_auto_connection, null)
+            val dialogBuilder = AlertDialog.Builder(this).apply {
+                setView(dialogView)
+                setIcon(R.mipmap.ic_launcher)
+                setCancelable(true)
+            }
+            val alertDialog = dialogBuilder.show()
+            dialogView.findViewById<Button>(R.id.dialog_auto_connection_ok_button).setOnClickListener {
+                alertDialog.dismiss()
+            }
+
             val handler = Handler()
             // ブロードキャストConnect
             sharedPref.edit().putInt("port", 8080).apply()
