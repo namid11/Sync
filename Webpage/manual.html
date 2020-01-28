@@ -13,48 +13,50 @@
     />
     <link rel="stylesheet" href="manual.css" />
   </head>
-  <body>
+  <body class="bg-light">
     <div class="container">
-      <div class="title text-center p-5">
-        <div class="display-1">
-          Sync
+      <div class="text-center px-5 py-3">
+        <div class="row d-flex align-items-center">
+          <!-- Title -->
+          <div class="col-6"><img class="img-fluid" src="https://firebasestorage.googleapis.com/v0/b/sync-f0887.appspot.com/o/material%2FSync%20Icon%20Transparent.png?alt=media&token=a3424b68-40de-47f6-90a5-5dbe0c13c43c" alt=""></div>
+          <div class="col-6"><img class="img-fluid" src="https://firebasestorage.googleapis.com/v0/b/sync-f0887.appspot.com/o/material%2FSync.svg?alt=media&token=075e79ae-2ecc-417e-b165-abd260957ef7" alt=""></div>
         </div>
       </div>
       <div>
-        <h1 class="text-info text-center my-3">マニュアル</h1>
+        <h1 class="text-center my-3" style="color: #0FBCF9;">マニュアル</h1>
         <div class="manual-install">
           <h2>インストール</h2>
           <hr />
-          <div class="read p-4">
+          <div class="read px-4 pb-4">
             <div>
               <!-- Android -->
-              <h3>
+              <h4>
                 <span class="bg-secondary text-white px-2 rounded">Android</span
                 >の場合
-              </h3>
+              </h4>
               <p>
-                以下のリンクからGooglePlayストアに移動し、インストールボタンを押してください
+                以下のリンクからGooglePlayストアに移動し、インストールボタンを押してください<br>
                 <a href="#">リンク</a>
               </p>
             </div>
             <div>
               <!-- Windows -->
-              <h3>
+              <h4>
                 <span class="bg-secondary text-white px-2 rounded">Windows</span
                 >の場合
-              </h3>
+              </h4>
               <p>
-                以下のリンクからインストールソフトをダウンロードしてください
+                以下のリンクからインストールソフトをダウンロードしてください<br>
                 <a href="#">リンク</a>
               </p>
             </div>
             <div>
               <!-- iOS , macOS -->
-              <h3>
+              <h4>
                 <span class="bg-secondary text-white px-2 rounded">iOS</span>
                 <span class="bg-secondary text-white px-2 rounded">macOS</span
                 >の場合
-              </h3>
+              </h4>
               <p>
                 未対応<br /><span class="text-success font-italic"
                   >* 近日、対応予定</span
@@ -66,26 +68,100 @@
         <div class="manual-connection">
           <h2>接続方法</h2>
           <hr />
-          <div class="read p-4">
+          <div class="read px-4 pb-4">
             <div>
               <h3>パソコン側</h3>
               <p>
                 タスクトレイにある<span class="font-italic">Sync</span
                 >アイコンをクリックし、「接続」→「自動接続」とクリックしてください。<br />
-                ローディング画面に入ればパソコン側はOKです。
+                ローディング画面に入ればパソコン側はOKです。<br>
+                <img class="my-2 img-fluid" src="https://firebasestorage.googleapis.com/v0/b/sync-f0887.appspot.com/o/material%2Fintroduction1.png?alt=media&token=8af9256e-2456-4e01-aad8-bc4fa1d67edb" alt="">
               </p>
             </div>
             <div>
               <h3>スマホ側</h3>
               <p>
-                ホーム画面の設定ボタンをクリックしてください。<br />
+                ホーム画面の設定ボタン<img id="setting-svg" class="bg-light mx-1" style="width: 1.2rem;" src="https://firebasestorage.googleapis.com/v0/b/sync-f0887.appspot.com/o/material%2Fsetting.svg?alt=media&token=ba8c7997-e8e3-469a-af6f-b3c92a998585" alt="">
+                をクリックしてください。<br />
                 「Network」ボタンを押すと接続画面が開きます。<br />
                 「Automatic」ボタンを押すと同一ネットワークにあるパソコンに接続リクエストが送られます。<br />
                 <span class="font-italic text-success"
-                  >*このとき、パソコン側は「自動接続」ボタンを押している必要があります。</span
-                >
+                  >*
+                  このとき、パソコン側は「自動接続」ボタンを押している必要があります。</span
+                ><br>
+                <img class="my-2 img-fluid" src="https://firebasestorage.googleapis.com/v0/b/sync-f0887.appspot.com/o/material%2Fintroduction2.png?alt=media&token=b62ea9d4-9abd-41f1-ae0d-1ac768ad9b43" alt=""><br>
+                接続完了のダイアログが表示されたら完了です
               </p>
             </div>
+          </div>
+        </div>
+        <div class="manual-trackpad">
+          <h2>トラックパッド操作</h2>
+          <hr>
+          <div class="px-4 pb-4">
+            <table class="table table-striped table-responsive custom-table">
+              <thead class="">
+                <tr>
+                  <th scope="col">操作名</th>
+                  <th scope="col">ジェスチャー方法</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>左クリック</td>
+                  <td>１本指でタップ</td>
+                </tr>
+                <tr>
+                  <td>右クリック</td>
+                  <td>２本指でタップ</td>
+                </tr>
+                <tr>
+                  <td>マウスホイール</td>
+                  <td>２本指でスクロール</td>
+                </tr>
+                <tr>
+                  <td>ブラウザバック</td>
+                  <td>２本指で左から右へスワイプ</td>
+                </tr>
+                <tr>
+                  <td>ブラウザフォワード</td>
+                  <td>２本指で右から左へスワイプ</td>
+                </tr>
+                <tr>
+                  <td>ブラウザバック</td>
+                  <td>２本指で左から右へスワイプ</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="manual-presentation">
+          <h2>プレゼンテーション操作</h2>
+          <hr>
+          <div class="px-4 pb-4">
+            <h4>各種ボタン</h4>
+            <table class="table table-striped table-responsive">
+              <thead class="">
+                <tr>
+                  <th>アイコン</th>
+                  <th>操作内容</th>
+                </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><img class="img-fluid" src="https://firebasestorage.googleapis.com/v0/b/sync-f0887.appspot.com/o/material%2Fbackward.svg?alt=media&token=f1bf63d7-2713-4d75-89f0-96b75478cff8" alt=""></td>
+                    <td>スライドを前のページに戻します</td>
+                  </tr>
+                  <tr>
+                    <td><img class="img-fluid" src="https://firebasestorage.googleapis.com/v0/b/sync-f0887.appspot.com/o/material%2Fnext.svg?alt=media&token=a707edab-d923-45df-b930-88dc28b195da" alt=""></td>
+                    <td>スライドを次のページに進みます</td>
+                  </tr>
+                  <tr>
+                    <td><img class="img-fluid" src="https://firebasestorage.googleapis.com/v0/b/sync-f0887.appspot.com/o/material%2Ftarget.svg?alt=media&token=ec24f028-97a8-44f3-9db3-a6044bb9828d" alt=""></td>
+                    <td>レーザーポインタを表示します</td>
+                  </tr>
+                </tbody>
+            </table>
           </div>
         </div>
       </div>
