@@ -1,6 +1,7 @@
 package com.example.sync
 
 import android.content.Context
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -10,6 +11,7 @@ import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.widget.*
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.ViewPropertyAnimatorListener
@@ -40,7 +42,8 @@ class SettingMenuActivity : AppCompatActivity() {
 
         val settingMenuData: List<SettingMenuItemData> = listOf(
             SettingMenuItemData(name = "Network", imgSrc = R.drawable.ui_network, clickListener = menuItemNetworkListener),
-            SettingMenuItemData(name = "Sensitive", imgSrc = R.drawable.ui_writing, clickListener = menuItemSensitiveListener)
+            SettingMenuItemData(name = "Sensitive", imgSrc = R.drawable.ui_writing, clickListener = menuItemSensitiveListener),
+            SettingMenuItemData(name = "Manual", imgSrc = R.drawable.ui_information, clickListener = menuItemManualListener)
         )
 
         // Set RecyclerView
@@ -193,6 +196,11 @@ class SettingMenuActivity : AppCompatActivity() {
         backButton.setOnClickListener {
             hiddenItemView(sensitiveSettingView)
         }
+    }
+
+    private val menuItemManualListener: (View) -> Unit = {
+        val customTabsIntent: CustomTabsIntent = CustomTabsIntent.Builder().build()
+        customTabsIntent.launchUrl(this, Uri.parse("https://sync-f0887.firebaseapp.com/manual"))
     }
 
     private fun showItemView(view: View) {
