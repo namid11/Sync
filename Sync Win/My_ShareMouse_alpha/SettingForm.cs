@@ -51,6 +51,8 @@ namespace Sync {
 
             // メニューボタン
             finishMenuButton.Click += new EventHandler(Exit);
+            autoConnectionButton.Click += new EventHandler(startAutoConnectOperation);
+            manualConnectionButton.Click += new EventHandler(manualConnect);
             autoConnectionMenuItem.Click += new EventHandler(startAutoConnectOperation);
             manualConnectionMenuItem.Click += new EventHandler(manualConnect);
             disconnectMenuItem.Click += new EventHandler(disconnect);
@@ -137,6 +139,12 @@ namespace Sync {
                     }
                     operateRequestManager.connect(iPAddress.ToString(), AppDataManager.getSavedPort());
                 }
+            }, 
+            () => {
+                // reject
+                this.Invoke(new Action(() => {
+                    autoConnectingForm.Close();
+                }));
             });
         }
 
@@ -185,6 +193,7 @@ namespace Sync {
             manualConnectionMenuItem.Enabled = checkBox.Checked;
             ipAddressListBox.Enabled = checkBox.Checked;
             portNumberTextBox.Enabled = checkBox.Checked;
+            manualConnectionButton.Enabled = checkBox.Checked;
         }
 
         private void autoStartCheckBox_CheckedChanged(object sender, EventArgs e) {

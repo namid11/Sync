@@ -17,6 +17,7 @@ namespace Sync {
     }
 
     delegate void resolve(CONNECTSTATUS status, dynamic rcvData);
+    delegate void reject();
     delegate void safeCallDelegate();
 
     class ConnectManager {
@@ -24,6 +25,8 @@ namespace Sync {
         private int portUdp = 8080;
         private int portTcp = 3333;
         private IPEndPoint localEP = null;
+        private UdpClient udpReceivingClient = null;
+
 
         private IPAddress sameNetworkAddress = null;
         public IPAddress SameNetworkAddress {
@@ -35,16 +38,16 @@ namespace Sync {
         public ConnectManager() {
         }
 
-        private void getListen(resolve resolve) {
+        private void getListen(resolve resolve, reject reject) {
             try {
                 localEP = new IPEndPoint(IPAddress.Any, portUdp);
-                UdpClient udp = new UdpClient(localEP);
-                udp.Client.ReceiveTimeout = 20000;
+                udpReceivingClient = new UdpClient(localEP);
+                udpReceivingClient.Client.ReceiveTimeout = 20000;
 
                 Thread thread = new Thread(new ThreadStart(() => {
                     IPEndPoint remoteEP = null;
                     try {
-                        byte[] rcvBytes = udp.Receive(ref remoteEP);
+                        byte[] rcvBytes = udpReceivingClient.Receive(ref remoteEP);
                         //データを文字列に変換する
                         string rcvMsg = Encoding.UTF8.GetString(rcvBytes);
                         var rcvJson = DynamicJson.Parse(rcvMsg);
@@ -68,12 +71,12 @@ namespace Sync {
                         }
                     } catch (SocketException e) {
                         Console.WriteLine("[Scoket Timeout] {0}", e.Message);
-                        resolve(CONNECTSTATUS.ERROR, null);
                         MessageBox.Show("接続先が見つかりませんでした", "接続エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        reject();
                     } catch (Exception e) {
                         Console.WriteLine("[ERROR] {0}", e.Message);
                     }
-                    udp.Close();
+                    udpReceivingClient.Close();
                 }));
                 thread.Start();
 
@@ -96,8 +99,14 @@ namespace Sync {
             }
         }
 
-        public string getConnectingMsg(resolve resolve) {
-            getListen(resolve);
+        private void cancelUdpReceiving() {
+            if (udpReceivingClient != null) {
+                udpReceivingClient.Close();
+            }
+        }
+
+        public string getConnectingMsg(resolve resolve, reject reject) {
+            getListen(resolve, reject);
             return "";
         }
 
