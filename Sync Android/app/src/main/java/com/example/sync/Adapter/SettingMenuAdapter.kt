@@ -3,21 +3,15 @@ package com.example.sync.Adapter
 import android.animation.AnimatorInflater
 import android.animation.AnimatorSet
 import android.content.Context
-import android.content.Intent
 import android.os.Build
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.example.sync.IpPortSettingActivity
 import com.example.sync.R
-import com.example.sync.SensitiveActivity
-import com.example.sync.SettingMenuActivity
 
 data class SettingMenuItemData(val name: String, val imgSrc: Int, val clickListener: (View) -> Unit)
 

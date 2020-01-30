@@ -1,6 +1,7 @@
 package com.example.sync.Manager
 
 import android.content.Context
+import android.net.wifi.WifiConfiguration
 import android.net.wifi.WifiManager
 import android.os.Build
 import android.util.JsonReader
@@ -11,6 +12,7 @@ import java.io.BufferedInputStream
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
+import java.lang.Exception
 import java.net.*
 
 
@@ -99,7 +101,7 @@ fun getBroadcastAddress(): InetAddress? {
 
 
 //ホストからTCPでIPアドレスが返ってきたときに受け取るメソッド
-fun receivedHostIp(resolve: (JSONObject) -> Unit) {
+fun receivedHostIp(resolve: (JSONObject) -> Unit, reject: (e: Exception) -> Unit = {}) {
     Thread {
         try {
             val serverSocket = ServerSocket(tcpPort)
@@ -112,7 +114,11 @@ fun receivedHostIp(resolve: (JSONObject) -> Unit) {
             serverSocket.close()
             connectedSocket.close()
 
-        } catch (e: IOException) {
+        } catch (e: SocketTimeoutException) {
+            reject(e)
+            e.printStackTrace()
+        } catch (e: Exception) {
+            reject(e)
             e.printStackTrace()
         } finally {
             waiting = false
