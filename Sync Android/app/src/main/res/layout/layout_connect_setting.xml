@@ -13,7 +13,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="MachineName"
+        android:layout_marginBottom="32dp"
+        android:text="@string/disconnected"
+        app:layout_constraintBottom_toTopOf="@+id/guideline10"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/auto_connect_button" />
@@ -35,7 +37,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:elevation="5dp"
-        android:fontFamily="@font/muli_extralight"
         android:text="Automatic"
         app:layout_constraintBottom_toTopOf="@+id/guideline10"
         app:layout_constraintEnd_toEndOf="parent"
@@ -63,7 +64,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.25" />
+        app:layout_constraintGuide_percent="0.3" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline11"

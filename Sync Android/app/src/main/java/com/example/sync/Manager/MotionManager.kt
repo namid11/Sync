@@ -138,14 +138,16 @@ class MotionManager {
                             DEFINEGESTURE.MOVE -> {
                                 if (tapLag <= 150) {
                                     reset()
+                                    scrollManager.reset()
                                     return MotionData(
                                         GESTURE.L_CLICK
                                     )
                                 }
                             }
                             DEFINEGESTURE.TWO -> {
-                                if (tapLag <= 150) {
+                                if (tapLag <= 100) {
                                     reset()
+                                    scrollManager.reset()
                                     return MotionData(
                                         GESTURE.R_CLICK
                                     )
@@ -162,6 +164,7 @@ class MotionManager {
                 }
 
                 reset()
+                scrollManager.reset()
             }
         }
 
@@ -179,7 +182,16 @@ class MotionManager {
         private var firstScrl: EventData? = null
         private var previousScrl: EventData? = null
 
+        private var counter = 0
+        private var scrollOriginPoint: EventData? = null
+
         fun move(event: MotionEvent): MotionData? {
+            if(counter <= 10) counter += 1
+            if(counter == 10) {
+                scrollOriginPoint = MotionEventToEventData(event)
+                counter += 1
+            }
+
             if (firstScrl != null && previousScrl != null) {
                 val pid1 = event.getPointerId(0)
                 val pid2 = event.getPointerId(1)
@@ -190,27 +202,39 @@ class MotionManager {
                 val disX = (disX1 + disX2) / 2f
                 val disY = (disY1 + disY2) / 2f
 
+                Log.d("[Motion DEBUG]", disX.toString())
                 previousScrl =
                     MotionEventToEventData(event)
 
 
                 // 数値の一時的な増大に対する対策
-                if (disX*disX + disY*disY >= 45000) {
+                if (disX*disX + disY*disY >= 40000) {
                     Log.d("[Motion DEBUG]", "[scroll-remove]")
                     return null
                 }
 
-                return if (abs(disX) >= 100) {
-                    if (disX > 0) MotionData(
-                        GESTURE.L_SWIPE
-                    ) else MotionData(GESTURE.R_SWIPE)
-                } else {
-                    MotionData(
-                        GESTURE.SCROLL,
-                        x = disX,
-                        y = disY
-                    )
+                if (counter >= 10) {    // 最初の誤動作部分は除去
+                    val disX1ToFirst = event.getX(pid1) - scrollOriginPoint!!.touchPoints[pid1].x
+                    val disX2ToFirst = event.getX(pid2) - scrollOriginPoint!!.touchPoints[pid2].x
+                    val time = (event.eventTime - scrollOriginPoint!!.time).toFloat()
+                    var v = 0f
+                    if (time != 0f) {
+                        v = ((disX1ToFirst + disX2ToFirst) / 2f) / (event.eventTime - scrollOriginPoint!!.time).toFloat()
+                        Log.d("[Motion DEBUG]", "v: $v")
+                    }
+                    return if (abs(v) >= 4f) {
+                        if (disX > 0) MotionData(
+                            GESTURE.L_SWIPE
+                        ) else MotionData(GESTURE.R_SWIPE)
+                    } else {
+                        MotionData(
+                            GESTURE.SCROLL,
+                            x = disX,
+                            y = disY
+                        )
+                    }
                 }
+
 
             } else {
                 firstScrl =
@@ -220,6 +244,10 @@ class MotionManager {
             }
 
             return null
+        }
+
+        fun reset() {
+            counter = 0
         }
     }
 

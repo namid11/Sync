@@ -7,4 +7,6 @@
     <color name="colorAccent">#02E2E3</color>
     <color name="colorPrimaryWhite">#FFFFFF</color>
     <color name="colorPrimaryGray">#DDD</color>
+    <color name="colorPrimaryLock">#40C7F7</color>
+    <color name="colorSubPrimaryLock">#43F8C5</color>
 </resources>
