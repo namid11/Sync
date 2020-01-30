@@ -41,11 +41,13 @@
             this.manualSettingSwitch = new System.Windows.Forms.CheckBox();
             this.autoStartCheckBox = new System.Windows.Forms.CheckBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.manualConnectionButton = new System.Windows.Forms.Button();
             this.connectingStateLabel = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.connectingDeviceNameLabel = new System.Windows.Forms.Label();
             this.connectingDeviceAddressLabel = new System.Windows.Forms.Label();
+            this.autoConnectionButton = new System.Windows.Forms.Button();
             this.mainContextMenuStrip.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -131,7 +133,7 @@
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Yu Gothic UI Semilight", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(52)))), ((int)(((byte)(54)))));
-            this.label1.Location = new System.Drawing.Point(134, 97);
+            this.label1.Location = new System.Drawing.Point(80, 102);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(66, 20);
@@ -144,7 +146,7 @@
             this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.Font = new System.Drawing.Font("Yu Gothic UI Semilight", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(52)))), ((int)(((byte)(54)))));
-            this.label2.Location = new System.Drawing.Point(134, 145);
+            this.label2.Location = new System.Drawing.Point(80, 150);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(72, 20);
@@ -157,7 +159,7 @@
             this.portNumberTextBox.Enabled = false;
             this.portNumberTextBox.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.portNumberTextBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(52)))), ((int)(((byte)(54)))));
-            this.portNumberTextBox.Location = new System.Drawing.Point(236, 144);
+            this.portNumberTextBox.Location = new System.Drawing.Point(182, 149);
             this.portNumberTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.portNumberTextBox.Name = "portNumberTextBox";
             this.portNumberTextBox.Size = new System.Drawing.Size(160, 22);
@@ -171,7 +173,7 @@
             this.ipAddressListBox.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.ipAddressListBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(52)))), ((int)(((byte)(54)))));
             this.ipAddressListBox.FormattingEnabled = true;
-            this.ipAddressListBox.Location = new System.Drawing.Point(236, 93);
+            this.ipAddressListBox.Location = new System.Drawing.Point(182, 98);
             this.ipAddressListBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.ipAddressListBox.Name = "ipAddressListBox";
             this.ipAddressListBox.Size = new System.Drawing.Size(160, 29);
@@ -196,14 +198,15 @@
             // autoStartCheckBox
             // 
             this.autoStartCheckBox.AutoSize = true;
-            this.autoStartCheckBox.BackColor = System.Drawing.Color.Transparent;
+            this.autoStartCheckBox.BackColor = System.Drawing.Color.White;
             this.autoStartCheckBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.autoStartCheckBox.Font = new System.Drawing.Font("Yu Gothic UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.autoStartCheckBox.ForeColor = System.Drawing.Color.White;
-            this.autoStartCheckBox.Location = new System.Drawing.Point(164, 91);
+            this.autoStartCheckBox.Font = new System.Drawing.Font("Yu Gothic UI Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.autoStartCheckBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(188)))), ((int)(((byte)(249)))));
+            this.autoStartCheckBox.Location = new System.Drawing.Point(32, 91);
             this.autoStartCheckBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.autoStartCheckBox.Name = "autoStartCheckBox";
-            this.autoStartCheckBox.Size = new System.Drawing.Size(188, 24);
+            this.autoStartCheckBox.Padding = new System.Windows.Forms.Padding(10, 5, 5, 5);
+            this.autoStartCheckBox.Size = new System.Drawing.Size(206, 34);
             this.autoStartCheckBox.TabIndex = 9;
             this.autoStartCheckBox.Text = "次回から自動的に開始する";
             this.autoStartCheckBox.UseVisualStyleBackColor = false;
@@ -214,6 +217,7 @@
             this.panel1.BackColor = System.Drawing.Color.Transparent;
             this.panel1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panel1.BackgroundImage")));
             this.panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.panel1.Controls.Add(this.manualConnectionButton);
             this.panel1.Controls.Add(this.portNumberTextBox);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.ipAddressListBox);
@@ -225,13 +229,26 @@
             this.panel1.Size = new System.Drawing.Size(521, 227);
             this.panel1.TabIndex = 10;
             // 
+            // manualConnectionButton
+            // 
+            this.manualConnectionButton.Enabled = false;
+            this.manualConnectionButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.manualConnectionButton.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.manualConnectionButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(188)))), ((int)(((byte)(249)))));
+            this.manualConnectionButton.Location = new System.Drawing.Point(403, 140);
+            this.manualConnectionButton.Name = "manualConnectionButton";
+            this.manualConnectionButton.Size = new System.Drawing.Size(95, 38);
+            this.manualConnectionButton.TabIndex = 17;
+            this.manualConnectionButton.Text = "接続";
+            this.manualConnectionButton.UseVisualStyleBackColor = true;
+            // 
             // connectingStateLabel
             // 
             this.connectingStateLabel.AutoSize = true;
             this.connectingStateLabel.BackColor = System.Drawing.Color.Transparent;
             this.connectingStateLabel.Font = new System.Drawing.Font("Yu Gothic UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.connectingStateLabel.ForeColor = System.Drawing.Color.White;
-            this.connectingStateLabel.Location = new System.Drawing.Point(130, 32);
+            this.connectingStateLabel.Location = new System.Drawing.Point(27, 33);
             this.connectingStateLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.connectingStateLabel.Name = "connectingStateLabel";
             this.connectingStateLabel.Size = new System.Drawing.Size(50, 25);
@@ -244,7 +261,7 @@
             this.label4.BackColor = System.Drawing.Color.Transparent;
             this.label4.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(242, 18);
+            this.label4.Location = new System.Drawing.Point(112, 18);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(75, 21);
@@ -257,7 +274,7 @@
             this.label5.BackColor = System.Drawing.Color.Transparent;
             this.label5.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label5.ForeColor = System.Drawing.Color.White;
-            this.label5.Location = new System.Drawing.Point(242, 53);
+            this.label5.Location = new System.Drawing.Point(112, 53);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(69, 21);
@@ -270,7 +287,7 @@
             this.connectingDeviceNameLabel.BackColor = System.Drawing.Color.Transparent;
             this.connectingDeviceNameLabel.Font = new System.Drawing.Font("Yu Gothic UI", 11F);
             this.connectingDeviceNameLabel.ForeColor = System.Drawing.Color.White;
-            this.connectingDeviceNameLabel.Location = new System.Drawing.Point(323, 19);
+            this.connectingDeviceNameLabel.Location = new System.Drawing.Point(193, 19);
             this.connectingDeviceNameLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.connectingDeviceNameLabel.Name = "connectingDeviceNameLabel";
             this.connectingDeviceNameLabel.Size = new System.Drawing.Size(45, 20);
@@ -283,12 +300,24 @@
             this.connectingDeviceAddressLabel.BackColor = System.Drawing.Color.Transparent;
             this.connectingDeviceAddressLabel.Font = new System.Drawing.Font("Yu Gothic UI", 11F);
             this.connectingDeviceAddressLabel.ForeColor = System.Drawing.Color.White;
-            this.connectingDeviceAddressLabel.Location = new System.Drawing.Point(323, 54);
+            this.connectingDeviceAddressLabel.Location = new System.Drawing.Point(193, 54);
             this.connectingDeviceAddressLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.connectingDeviceAddressLabel.Name = "connectingDeviceAddressLabel";
             this.connectingDeviceAddressLabel.Size = new System.Drawing.Size(45, 20);
             this.connectingDeviceAddressLabel.TabIndex = 15;
             this.connectingDeviceAddressLabel.Text = "None";
+            // 
+            // autoConnectionButton
+            // 
+            this.autoConnectionButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.autoConnectionButton.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.autoConnectionButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(188)))), ((int)(((byte)(249)))));
+            this.autoConnectionButton.Location = new System.Drawing.Point(392, 77);
+            this.autoConnectionButton.Name = "autoConnectionButton";
+            this.autoConnectionButton.Size = new System.Drawing.Size(95, 38);
+            this.autoConnectionButton.TabIndex = 16;
+            this.autoConnectionButton.Text = "自動接続";
+            this.autoConnectionButton.UseVisualStyleBackColor = true;
             // 
             // SettingForm
             // 
@@ -298,6 +327,7 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(499, 349);
+            this.Controls.Add(this.autoConnectionButton);
             this.Controls.Add(this.connectingDeviceAddressLabel);
             this.Controls.Add(this.connectingDeviceNameLabel);
             this.Controls.Add(this.autoStartCheckBox);
@@ -343,6 +373,8 @@
         private System.Windows.Forms.Label connectingDeviceNameLabel;
         private System.Windows.Forms.Label connectingDeviceAddressLabel;
         private System.Windows.Forms.ToolStripMenuItem connectStatusMenuItem;
+        private System.Windows.Forms.Button manualConnectionButton;
+        private System.Windows.Forms.Button autoConnectionButton;
     }
 }
 

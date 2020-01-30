@@ -58,6 +58,13 @@ namespace Sync {
                         byte[] recieveBytes = udp_client.Receive(ref remote_ep);
                         string recieveStr = Encoding.UTF8.GetString(recieveBytes);
                         dynamic obj = DynamicJson.Parse(recieveStr);
+                        if (!obj.IsDefined("key")) {
+                            //メッセージボックスを表示する
+                            DialogResult result = MessageBox.Show("不明な通信がされました。\n再接続してください。",
+                                "不明な通信",
+                                MessageBoxButtons.OK, 
+                                MessageBoxIcon.Warning);
+                        }
                         switch (obj.key) {
                             case "moved":
                                 //Console.WriteLine("key is 'moved'");
