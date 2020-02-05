@@ -51,15 +51,10 @@ namespace Sync {
 
             // メニューボタン
             finishMenuButton.Click += new EventHandler(Exit);
-            autoConnectionButton.Click += new EventHandler(startAutoConnectOperation);
             manualConnectionButton.Click += new EventHandler(manualConnect);
-            autoConnectionMenuItem.Click += new EventHandler(startAutoConnectOperation);
             manualConnectionMenuItem.Click += new EventHandler(manualConnect);
             disconnectMenuItem.Click += new EventHandler(disconnect);
             settingMenuItem.Click += new EventHandler(setting);
-
-            // 起動時は表示？
-            this.Visible = true;
 
             // 接続スタータスの表示設定
             var latestData = AppDataManager.getLatestData();
@@ -69,7 +64,7 @@ namespace Sync {
             } else {
                 dispDisconnectingView();
             }
-            
+
 
             // 起動時の自動接続開始
             if (AppDataManager.autoStartFlag()) {
@@ -77,7 +72,13 @@ namespace Sync {
                 int port = AppDataManager.getSavedPort();
                 operateRequestManager.connect(ipAddress, port);
                 autoStartCheckBox.Checked = true;
+                this.Visible = false;
+            } else {
+                // 起動時は表示？
+                this.Visible = true;
             }
+
+            startAutoConnectOperation();
         }
 
         private void manualConnect(object sender, EventArgs e) {
@@ -100,13 +101,13 @@ namespace Sync {
         }
 
         // 自動接続オペレーション
-        private void startAutoConnectOperation(object sender, EventArgs e) {
+        private void startAutoConnectOperation() {
             // ローディング開始
-            AutoConnectingForm autoConnectingForm = new AutoConnectingForm();
-            autoConnectingForm.Show();
+            //AutoConnectingForm autoConnectingForm = new AutoConnectingForm();
+            //autoConnectingForm.Show();
 
-            // 事前に利用中のUDP通信を切断
-            operateRequestManager.disconnect();
+            // 事前に利用中のUDP通信を切断（自動接続のポート番号変えたのでいらない）
+            //operateRequestManager.disconnect();
 
             // スマホ側から自動接続確認メッセージを受け取る
             connectManager.getConnectingMsg((CONNECTSTATUS status, dynamic rcvData) => {
@@ -129,7 +130,7 @@ namespace Sync {
                             autoStartCheckBox.Checked = true;
                         }
 
-                        autoConnectingForm.Close();
+                        //autoConnectingForm.Close();
                     }));
 
                     DialogResult dialogResult = MessageBox.Show("接続が完了しました。\n次回から自動的にこのデバイスと接続しますか？\nデバイス名：" + rcvData.device, "接続成功", MessageBoxButtons.OKCancel);
@@ -143,7 +144,7 @@ namespace Sync {
             () => {
                 // reject
                 this.Invoke(new Action(() => {
-                    autoConnectingForm.Close();
+                    //autoConnectingForm.Close();
                 }));
             });
         }
@@ -169,6 +170,7 @@ namespace Sync {
         private void Exit(object sender, EventArgs e) {
             icon.Visible = false;
             operateRequestManager.disconnect();
+            connectManager.cancelUdpReceiving();
             Application.Exit();
         }
 

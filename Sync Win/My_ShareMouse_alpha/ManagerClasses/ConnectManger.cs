@@ -22,7 +22,7 @@ namespace Sync {
 
     class ConnectManager {
 
-        private int portUdp = 8080;
+        private int portUdp = 8081;
         private int portTcp = 3333;
         private IPEndPoint localEP = null;
         private UdpClient udpReceivingClient = null;
@@ -40,41 +40,45 @@ namespace Sync {
 
         private void getListen(resolve resolve, reject reject) {
             try {
-                localEP = new IPEndPoint(IPAddress.Any, portUdp);
+                localEP = new IPEndPoint(IPAddress.Any, portUdp);   // IPAddress.Any is to try connecting all available ip address.
                 udpReceivingClient = new UdpClient(localEP);
-                udpReceivingClient.Client.ReceiveTimeout = 20000;
+                //udpReceivingClient.Client.ReceiveTimeout = 20000;
 
                 Thread thread = new Thread(new ThreadStart(() => {
-                    IPEndPoint remoteEP = null;
-                    try {
-                        byte[] rcvBytes = udpReceivingClient.Receive(ref remoteEP);
-                        //データを文字列に変換する
-                        string rcvMsg = Encoding.UTF8.GetString(rcvBytes);
-                        var rcvJson = DynamicJson.Parse(rcvMsg);
+                    while (true) {
+                        IPEndPoint remoteEP = null;
+                        try {
+                            byte[] rcvBytes = udpReceivingClient.Receive(ref remoteEP);
+                            //データを文字列に変換する
+                            string rcvMsg = Encoding.UTF8.GetString(rcvBytes);
+                            var rcvJson = DynamicJson.Parse(rcvMsg);
 
-                        //受信したデータと送信者の情報を表示する
-                        Console.WriteLine("受信したデータ:{0}", rcvMsg);
-                        Console.WriteLine("送信元アドレス:{0}\nデバイス:{1}", rcvJson.ip, rcvJson.device);
+                            //受信したデータと送信者の情報を表示する
+                            Console.WriteLine("受信したデータ:{0}", rcvMsg);
+                            Console.WriteLine("送信元アドレス:{0}\nデバイス:{1}", rcvJson.ip, rcvJson.device);
 
-                        // 同一ネットワークのIPアドレスを取得し、クライアントに送る
-                        sameNetworkAddress = findSameNetwork(rcvJson.ip);
-                        if (sameNetworkAddress != null) {
-                            Console.WriteLine("サーバのIPアドレスは{0}です", sameNetworkAddress.ToString());
-                            var sendObj = new {
-                                ip = sameNetworkAddress.ToString(),
-                                machineName = Environment.MachineName
-                            };
-                            sendConnectDoneMsg(rcvJson.ip, DynamicJson.Serialize(sendObj));
-                            resolve(CONNECTSTATUS.OK, rcvJson);
-                        } else {
-                            Console.WriteLine("同じネットワークのアドレスがありません");
+                            // 同一ネットワークのIPアドレスを取得し、クライアントに送る
+                            sameNetworkAddress = findSameNetwork(rcvJson.ip);
+                            if (sameNetworkAddress != null) {
+                                Console.WriteLine("サーバのIPアドレスは{0}です", sameNetworkAddress.ToString());
+                                var sendObj = new {
+                                    ip = sameNetworkAddress.ToString(),
+                                    machineName = Environment.MachineName
+                                };
+                                sendConnectDoneMsg(rcvJson.ip, DynamicJson.Serialize(sendObj));
+                                resolve(CONNECTSTATUS.OK, rcvJson);
+                            } else {
+                                Console.WriteLine("同じネットワークのアドレスがありません");
+                            }
+                        } catch (SocketException e) {
+                            Console.WriteLine("[Scoket Timeout] {0}", e.Message);
+                            MessageBox.Show("接続先が見つかりませんでした", "接続エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            reject();
+                            break;
+                        } catch (Exception e) {
+                            Console.WriteLine("[ERROR] {0}", e.Message);
+                            break;
                         }
-                    } catch (SocketException e) {
-                        Console.WriteLine("[Scoket Timeout] {0}", e.Message);
-                        MessageBox.Show("接続先が見つかりませんでした", "接続エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        reject();
-                    } catch (Exception e) {
-                        Console.WriteLine("[ERROR] {0}", e.Message);
                     }
                     udpReceivingClient.Close();
                 }));
@@ -99,7 +103,7 @@ namespace Sync {
             }
         }
 
-        private void cancelUdpReceiving() {
+        public void cancelUdpReceiving() {
             if (udpReceivingClient != null) {
                 udpReceivingClient.Close();
             }
