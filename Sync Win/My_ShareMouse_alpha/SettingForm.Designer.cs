@@ -52,8 +52,8 @@
             // 
             // mainContextMenuStrip
             // 
-            this.mainContextMenuStrip.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("mainContextMenuStrip.BackgroundImage")));
-            this.mainContextMenuStrip.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.mainContextMenuStrip.BackColor = System.Drawing.SystemColors.Control;
+            this.mainContextMenuStrip.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.mainContextMenuStrip.Font = new System.Drawing.Font("Yu Gothic UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.mainContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.connectStatusMenuItem,
@@ -68,7 +68,7 @@
             // 
             // connectStatusMenuItem
             // 
-            this.connectStatusMenuItem.ForeColor = System.Drawing.Color.White;
+            this.connectStatusMenuItem.ForeColor = System.Drawing.Color.Black;
             this.connectStatusMenuItem.Name = "connectStatusMenuItem";
             this.connectStatusMenuItem.Size = new System.Drawing.Size(155, 24);
             this.connectStatusMenuItem.Text = "未接続";
@@ -84,7 +84,7 @@
             this.connectRequestMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.manualConnectionMenuItem,
             this.disconnectMenuItem});
-            this.connectRequestMenuItem.ForeColor = System.Drawing.Color.White;
+            this.connectRequestMenuItem.ForeColor = System.Drawing.Color.Black;
             this.connectRequestMenuItem.Name = "connectRequestMenuItem";
             this.connectRequestMenuItem.Size = new System.Drawing.Size(155, 24);
             this.connectRequestMenuItem.Text = "接続";
@@ -105,7 +105,7 @@
             // 
             // settingMenuItem
             // 
-            this.settingMenuItem.ForeColor = System.Drawing.Color.White;
+            this.settingMenuItem.ForeColor = System.Drawing.Color.Black;
             this.settingMenuItem.Name = "settingMenuItem";
             this.settingMenuItem.Size = new System.Drawing.Size(155, 24);
             this.settingMenuItem.Text = "設定";
@@ -113,7 +113,7 @@
             // finishMenuButton
             // 
             this.finishMenuButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.finishMenuButton.ForeColor = System.Drawing.Color.White;
+            this.finishMenuButton.ForeColor = System.Drawing.Color.Black;
             this.finishMenuButton.Name = "finishMenuButton";
             this.finishMenuButton.Size = new System.Drawing.Size(155, 24);
             this.finishMenuButton.Text = "終了";

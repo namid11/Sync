@@ -133,19 +133,21 @@ namespace Sync {
                         //autoConnectingForm.Close();
                     }));
 
-                    DialogResult dialogResult = MessageBox.Show("接続が完了しました。\n次回から自動的にこのデバイスと接続しますか？\nデバイス名：" + rcvData.device, "接続成功", MessageBoxButtons.OKCancel);
+                    DialogResult dialogResult = MessageBox.Show(
+                        "接続が完了しました。\n次回から自動的にこのデバイスと接続しますか？\nデバイス名：" + rcvData.device, "接続成功",
+                        MessageBoxButtons.OKCancel);
                     if (dialogResult == DialogResult.OK) {
                         AppDataManager.putAutoStartFlag(true);
                         AppDataManager.putLatestData(rcvData.device, rcvData.ip);
                     }
                     operateRequestManager.connect(iPAddress.ToString(), AppDataManager.getSavedPort());
                 }
-            }, 
+            },  
             () => {
                 // reject
-                this.Invoke(new Action(() => {
+                //this.Invoke(new Action(() => {
                     //autoConnectingForm.Close();
-                }));
+                //}));
             });
         }
 
@@ -208,7 +210,7 @@ namespace Sync {
 
         private void dispConnectingView(string connectedDevice, string connectedAddress) {
             connectStatusMenuItem.Text = "接続中";
-            connectStatusMenuItem.ForeColor = Color.Cyan;
+            connectStatusMenuItem.ForeColor = Color.Blue;
             disconnectMenuItem.Enabled = true;
 
             connectingStateLabel.Text = "接続中";
