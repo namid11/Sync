@@ -16,20 +16,20 @@
                     <path
                         android:name="path"
                         android:pathData="M 256 20 C 193.433 20 133.364 44.881 89.123 89.123 C 44.881 133.364 20 193.433 20 256 C 20 318.567 44.881 378.636 89.123 422.877 C 133.364 467.119 193.433 492 256 492 C 318.567 492 378.636 467.119 422.877 422.877 C 467.119 378.636 492 318.567 492 256 C 492 193.433 467.119 133.364 422.877 89.123 C 378.636 44.881 318.567 20 256 20 Z"
-                        android:strokeColor="#000000"
+                        android:strokeColor="@color/colorSuccess"
                         android:strokeWidth="40"
                         android:strokeLineCap="round"/>
                     <path
                         android:name="path_1"
                         android:pathData="M 132.789 290.789 L 203.5 361.5"
-                        android:strokeColor="#000000"
+                        android:strokeColor="@color/colorSuccess"
                         android:strokeWidth="40"
                         android:trimPathEnd="0"
                         android:strokeLineCap="round"/>
                     <path
                         android:name="path_2"
                         android:pathData="M 203.221 361.779 L 379.998 185.002"
-                        android:strokeColor="#000000"
+                        android:strokeColor="@color/colorSuccess"
                         android:strokeWidth="40"
                         android:trimPathEnd="0"
                         android:strokeLineCap="round"/>

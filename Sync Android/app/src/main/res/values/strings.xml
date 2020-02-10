@@ -9,4 +9,6 @@
     <string name="message_auto_connction">先にパソコン側で、「自動接続」ボタンを押してください</string>
     <string name="disable_message_again">今後このメッセージを表示しない</string>
     <string name="disconnected">Disconnected</string>
+    <string name="automatic">Automatic</string>
+    <string name="check">Check</string>
 </resources>
