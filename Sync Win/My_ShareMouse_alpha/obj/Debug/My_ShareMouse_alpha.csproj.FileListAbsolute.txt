@@ -37,3 +37,13 @@ C:\Users\hiroy\Project\Sync\Sync Win\My_ShareMouse_alpha\obj\Debug\Sync.Properti
 C:\Users\hiroy\Project\Sync\Sync Win\My_ShareMouse_alpha\obj\Debug\My_ShareMouse_alpha.csproj.GenerateResource.cache
 C:\Users\hiroy\Project\Sync\Sync Win\My_ShareMouse_alpha\obj\Debug\Sync.exe
 C:\Users\hiroy\Project\Sync\Sync Win\My_ShareMouse_alpha\obj\Debug\Sync.pdb
+C:\Users\Niitsuma\Project\Sync\Sync Win\My_ShareMouse_alpha\bin\Debug\Sync.exe.config
+C:\Users\Niitsuma\Project\Sync\Sync Win\My_ShareMouse_alpha\bin\Debug\Sync.exe
+C:\Users\Niitsuma\Project\Sync\Sync Win\My_ShareMouse_alpha\bin\Debug\Sync.pdb
+C:\Users\Niitsuma\Project\Sync\Sync Win\My_ShareMouse_alpha\obj\Debug\My_ShareMouse_alpha.csprojAssemblyReference.cache
+C:\Users\Niitsuma\Project\Sync\Sync Win\My_ShareMouse_alpha\obj\Debug\Sync.AutoConnectingForm.resources
+C:\Users\Niitsuma\Project\Sync\Sync Win\My_ShareMouse_alpha\obj\Debug\Sync.SettingForm.resources
+C:\Users\Niitsuma\Project\Sync\Sync Win\My_ShareMouse_alpha\obj\Debug\Sync.Properties.Resources.resources
+C:\Users\Niitsuma\Project\Sync\Sync Win\My_ShareMouse_alpha\obj\Debug\My_ShareMouse_alpha.csproj.GenerateResource.cache
+C:\Users\Niitsuma\Project\Sync\Sync Win\My_ShareMouse_alpha\obj\Debug\Sync.exe
+C:\Users\Niitsuma\Project\Sync\Sync Win\My_ShareMouse_alpha\obj\Debug\Sync.pdb
