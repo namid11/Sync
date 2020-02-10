@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <shape
+            android:shape="rectangle">
+
+            <!-- 背景色 -->
+            <solid android:color="@color/colorPrimaryThick" />
+
+            <!-- 角の丸み -->
+            <corners android:radius="19dp" />
+
+            <size android:width="22dp" android:height="22dp" />
+
+            <padding android:left="8dp" android:bottom="8dp" android:right="8dp" android:top="8dp" />
+
+        </shape>
+    </item>
+    <item android:state_pressed="false">
+        <shape
+            android:shape="rectangle">
+
+            <!-- 背景色 -->
+            <solid android:color="@color/colorPrimary" />
+
+            <!-- 角の丸み -->
+            <corners android:radius="19dp" />
+
+            <size android:width="22dp" android:height="22dp" />
+
+            <padding android:left="8dp" android:bottom="8dp" android:right="8dp" android:top="8dp" />
+
+        </shape>
+    </item>
+</selector>

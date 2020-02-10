@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#0FBCF9</color>
-    <color name="colorPrimaryThick">#0EA3D8</color>
+    <color name="colorPrimaryThick">#0C94C5</color>
+<!--    <color name="colorPrimaryThick">#3DC7FA</color>-->
     <color name="colorSubPrimary">#03FDB7</color>
     <color name="colorPrimaryDark">#1E272E</color>
     <color name="colorAccent">#02E2E3</color>
@@ -9,4 +10,5 @@
     <color name="colorPrimaryGray">#DDD</color>
     <color name="colorPrimaryLock">#40C7F7</color>
     <color name="colorSubPrimaryLock">#43F8C5</color>
+    <color name="colorSuccess">#05c46b</color>
 </resources>
