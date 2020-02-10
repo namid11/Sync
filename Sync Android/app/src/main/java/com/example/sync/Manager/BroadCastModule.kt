@@ -24,7 +24,7 @@ private var wifi: WifiManager? = null
 fun sendBroadcast(context: Context) {
     sample_WifiConnection(context)
     val sharedPreferences = context.getSharedPreferences("ServerAddress", Context.MODE_PRIVATE);
-    val udpPort = sharedPreferences.getInt("port", 8080)
+    val udpPort = 8081
     val myIpAddress: String = getIpAddress() ?: ""
     val sendJsonData = JSONObject()
     sendJsonData.put("ip", myIpAddress)
@@ -34,8 +34,8 @@ fun sendBroadcast(context: Context) {
     waiting = true
     Thread {
         var count = 0
-        //送信回数を5回に制限する
-        while (count < 5 && waiting) {
+
+        while (count < 3 && waiting) {
             try {
                 val udpSocket = DatagramSocket(udpPort)
                 udpSocket.broadcast = true  // broadcast ON
@@ -52,7 +52,7 @@ fun sendBroadcast(context: Context) {
             } catch (e: IOException) {
                 e.printStackTrace()
             }
-            //5秒待って再送信を行う
+            //2秒待って再送信を行う
             try {
                 Thread.sleep(2000)
                 count++
@@ -105,23 +105,29 @@ fun receivedHostIp(resolve: (JSONObject) -> Unit, reject: (e: Exception) -> Unit
     Thread {
         try {
             val serverSocket = ServerSocket(tcpPort)
-            serverSocket.soTimeout = 20000
-            val connectedSocket = serverSocket.accept()
-            val receivedReader = BufferedReader(InputStreamReader(connectedSocket.getInputStream()))
-            val receivedJsonData = JSONObject(receivedReader.readLine())
-            Log.d("receivedHostIp", "receive: %s".format(receivedJsonData.toString()))
-            resolve(receivedJsonData)
-            serverSocket.close()
-            connectedSocket.close()
+            serverSocket.soTimeout = 8000
 
-        } catch (e: SocketTimeoutException) {
-            reject(e)
-            e.printStackTrace()
+            try {
+                val connectedSocket = serverSocket.accept()
+                val receivedReader = BufferedReader(InputStreamReader(connectedSocket.getInputStream()))
+                val receivedJsonData = JSONObject(receivedReader.readLine())
+                Log.d("receivedHostIp", "receive: %s".format(receivedJsonData.toString()))
+                resolve(receivedJsonData)
+                connectedSocket.close()
+
+            } catch (e: SocketTimeoutException) {
+                reject(e)
+                e.printStackTrace()
+            } catch (e: Exception) {
+                reject(e)
+                e.printStackTrace()
+            } finally {
+                serverSocket.close()
+                waiting = false
+            }
         } catch (e: Exception) {
-            reject(e)
             e.printStackTrace()
-        } finally {
-            waiting = false
         }
+
     }.start()
 }

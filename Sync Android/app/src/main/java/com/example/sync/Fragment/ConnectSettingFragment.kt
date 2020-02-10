@@ -32,7 +32,7 @@ class ConnectSettingFragment: SettingMenuItemFragment() {
             val dialogView = layoutInflater.inflate(R.layout.dialog_connecting_progress, null)
             val dialogBuilder = AlertDialog.Builder(context!!).apply {
                 setView(dialogView) // Viewをセット
-                setCancelable(true) // dialog以外をタップしたら、消える
+                setCancelable(false)
             }
             val progressBar = dialogView.findViewById<ProgressBar>(R.id.dialog_progress_progress_bar)
             val imageView = dialogView.findViewById<ImageView>(R.id.dialog_progress_check_image_view)
@@ -50,6 +50,7 @@ class ConnectSettingFragment: SettingMenuItemFragment() {
             receivedHostIp(
                 resolve = {
                     sharedPref.edit().putString("ip", it.getString("ip"))?.apply()
+                    sharedPref.edit().putString("name", it.getString("machineName"))?.apply()
                     handler.post {
                         Thread.sleep(1500)
 
@@ -76,7 +77,7 @@ class ConnectSettingFragment: SettingMenuItemFragment() {
                         okButton.setOnClickListener {
                             alertDialog.dismiss()
                         }
-                        titleTextView.text = "Connecting Fail ..."
+                        titleTextView.text = "Failed Connecting"
                         msgTextView.isVisible = true
                         msgTextView.text = "再接続してみてください"
                     }
@@ -112,6 +113,7 @@ class ConnectSettingFragment: SettingMenuItemFragment() {
 
 
             machineNameTextView = layoutView.findViewById(R.id.address_setting_machine_name_text_view)
+            machineNameTextView.text = sharedPref.getString("name", "Disconnected")
 
             autoConnectingButton = layoutView.findViewById(R.id.auto_connect_button)
             autoConnectingButton.setOnClickListener(autoConnectingButtonListener)
