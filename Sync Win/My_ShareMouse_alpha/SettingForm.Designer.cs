@@ -46,6 +46,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.connectingDeviceNameLabel = new System.Windows.Forms.Label();
             this.connectingDeviceAddressLabel = new System.Windows.Forms.Label();
+            this.SuccessConnectionNotifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.mainContextMenuStrip.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -63,20 +64,20 @@
             this.finishMenuButton});
             this.mainContextMenuStrip.Name = "mainContextMenuStrip";
             this.mainContextMenuStrip.ShowImageMargin = false;
-            this.mainContextMenuStrip.Size = new System.Drawing.Size(156, 128);
+            this.mainContextMenuStrip.Size = new System.Drawing.Size(99, 106);
             this.mainContextMenuStrip.Text = "Sync";
             // 
             // connectStatusMenuItem
             // 
             this.connectStatusMenuItem.ForeColor = System.Drawing.Color.Black;
             this.connectStatusMenuItem.Name = "connectStatusMenuItem";
-            this.connectStatusMenuItem.Size = new System.Drawing.Size(155, 24);
+            this.connectStatusMenuItem.Size = new System.Drawing.Size(98, 24);
             this.connectStatusMenuItem.Text = "未接続";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(152, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(95, 6);
             // 
             // connectRequestMenuItem
             // 
@@ -86,28 +87,28 @@
             this.disconnectMenuItem});
             this.connectRequestMenuItem.ForeColor = System.Drawing.Color.Black;
             this.connectRequestMenuItem.Name = "connectRequestMenuItem";
-            this.connectRequestMenuItem.Size = new System.Drawing.Size(155, 24);
+            this.connectRequestMenuItem.Size = new System.Drawing.Size(98, 24);
             this.connectRequestMenuItem.Text = "接続";
             // 
             // manualConnectionMenuItem
             // 
             this.manualConnectionMenuItem.Enabled = false;
             this.manualConnectionMenuItem.Name = "manualConnectionMenuItem";
-            this.manualConnectionMenuItem.Size = new System.Drawing.Size(180, 24);
+            this.manualConnectionMenuItem.Size = new System.Drawing.Size(138, 24);
             this.manualConnectionMenuItem.Text = "手動接続";
             // 
             // disconnectMenuItem
             // 
             this.disconnectMenuItem.Enabled = false;
             this.disconnectMenuItem.Name = "disconnectMenuItem";
-            this.disconnectMenuItem.Size = new System.Drawing.Size(180, 24);
+            this.disconnectMenuItem.Size = new System.Drawing.Size(138, 24);
             this.disconnectMenuItem.Text = "切断";
             // 
             // settingMenuItem
             // 
             this.settingMenuItem.ForeColor = System.Drawing.Color.Black;
             this.settingMenuItem.Name = "settingMenuItem";
-            this.settingMenuItem.Size = new System.Drawing.Size(155, 24);
+            this.settingMenuItem.Size = new System.Drawing.Size(98, 24);
             this.settingMenuItem.Text = "設定";
             // 
             // finishMenuButton
@@ -115,7 +116,7 @@
             this.finishMenuButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.finishMenuButton.ForeColor = System.Drawing.Color.Black;
             this.finishMenuButton.Name = "finishMenuButton";
-            this.finishMenuButton.Size = new System.Drawing.Size(155, 24);
+            this.finishMenuButton.Size = new System.Drawing.Size(98, 24);
             this.finishMenuButton.Text = "終了";
             // 
             // label1
@@ -298,6 +299,11 @@
             this.connectingDeviceAddressLabel.TabIndex = 15;
             this.connectingDeviceAddressLabel.Text = "None";
             // 
+            // SuccessConnectionNotifyIcon
+            // 
+            this.SuccessConnectionNotifyIcon.Text = "notifyIcon1";
+            this.SuccessConnectionNotifyIcon.Visible = true;
+            // 
             // SettingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -351,6 +357,7 @@
         private System.Windows.Forms.Label connectingDeviceAddressLabel;
         private System.Windows.Forms.ToolStripMenuItem connectStatusMenuItem;
         private System.Windows.Forms.Button manualConnectionButton;
+        private System.Windows.Forms.NotifyIcon SuccessConnectionNotifyIcon;
     }
 }
 

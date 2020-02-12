@@ -58,7 +58,7 @@ class ConnectSettingFragment: SettingMenuItemFragment() {
                         machineNameTextView.text = it.getString("machineName")
 
                         progressBar.isVisible = false
-                        titleTextView.text = "Connecting Success !"
+                        titleTextView.text = "Success"
                         okButton.isEnabled = true
                         okButton.setOnClickListener {
                             alertDialog.dismiss()
@@ -77,7 +77,7 @@ class ConnectSettingFragment: SettingMenuItemFragment() {
                         okButton.setOnClickListener {
                             alertDialog.dismiss()
                         }
-                        titleTextView.text = "Failed Connecting"
+                        titleTextView.text = "Failed"
                         msgTextView.isVisible = true
                         msgTextView.text = "再接続してみてください"
                     }
