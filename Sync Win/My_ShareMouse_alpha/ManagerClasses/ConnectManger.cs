@@ -26,7 +26,7 @@ namespace Sync {
         private int portTcp = 3333;
         private IPEndPoint localEP = null;
         private UdpClient udpReceivingClient = null;
-
+        private Thread udpReceivingThread = null;
 
         private IPAddress sameNetworkAddress = null;
         public IPAddress SameNetworkAddress {
@@ -44,7 +44,7 @@ namespace Sync {
                 udpReceivingClient = new UdpClient(localEP);
                 //udpReceivingClient.Client.ReceiveTimeout = 20000;
 
-                Thread thread = new Thread(new ThreadStart(() => {
+                udpReceivingThread = new Thread(new ThreadStart(() => {
                     while (true) {
                         IPEndPoint remoteEP = null;
                         try {
@@ -82,7 +82,7 @@ namespace Sync {
                     }
                     udpReceivingClient.Close();
                 }));
-                thread.Start();
+                udpReceivingThread.Start();
 
             } catch (Exception e) {
                 Console.WriteLine("[ERROR] {0}", e.Message);
@@ -105,7 +105,7 @@ namespace Sync {
 
         public void cancelUdpReceiving() {
             if (udpReceivingClient != null) {
-                udpReceivingClient.Close();
+                udpReceivingThread.Abort();
             }
         }
 

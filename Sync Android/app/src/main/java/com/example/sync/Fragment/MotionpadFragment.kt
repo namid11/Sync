@@ -122,7 +122,8 @@ class MotionpadFragment: Fragment() {
             runSocket(
                 ipPortManager.getIP(),
                 ipPortManager.getPort(),
-                postJsonObj
+                postJsonObj,
+                forceExecute = true
             )
 
             Log.d("[MOTION DEBUG]", "[click Left]")
@@ -155,7 +156,7 @@ class MotionpadFragment: Fragment() {
                 postJsonObj
             )
 
-            //Log.d("[MOTION DEBUG]", "[move] x: %f, y: %f".format(x, y))
+//            Log.d("[MOTION DEBUG]", "[move] x: %f, y: %f".format(x, y))
         }
 
         fun scroll(x: Float, y: Float) {

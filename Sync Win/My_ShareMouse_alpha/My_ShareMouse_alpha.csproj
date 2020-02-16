@@ -137,6 +137,9 @@
   <ItemGroup>
     <None Include="Resources\Sync Icon Transparent.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\laser pointer.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions />
 </Project>
