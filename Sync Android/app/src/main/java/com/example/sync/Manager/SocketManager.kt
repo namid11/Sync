@@ -24,22 +24,41 @@ class IpPortManager(val context: Context) {
 }
 
 
-fun runSocket(ip: String, port: Int, jsonObj: JSONObject) {
+// PC操作命令の送信ソケット
+var operationSocket: DatagramSocket? = null
+
+fun runSocket(ip: String, port: Int, jsonObj: JSONObject, forceExecute: Boolean = false) {
+    // ソケットが接続中でも、強制実行する場合、100msだけ待つ
+    val waitClosedSocketTime = System.currentTimeMillis()
+    var diffWaitTime = System.currentTimeMillis() - waitClosedSocketTime
+    while (operationSocket != null && diffWaitTime < 100) {
+        if (forceExecute  && !operationSocket!!.isClosed) {
+            diffWaitTime = System.currentTimeMillis() - waitClosedSocketTime
+            Log.d("[runSocket]", "waiting until closed socket. wait time:%d".format(diffWaitTime))
+            continue
+        } else {
+            break
+        }
+    }
+
+    // send operated information on socket
     try {
-        val socket = DatagramSocket(port)
+        operationSocket = DatagramSocket(port)
         val address = InetAddress.getByName(ip)
 
         Thread {
             try {
                 val packet = DatagramPacket(jsonObj.toString().toByteArray(), jsonObj.toString().toByteArray().size, address, 8080)
-                socket.send(packet)
-                socket.close()
-            } catch (e: IOException) {
+                operationSocket?.send(packet)
+                operationSocket?.close()
+            } catch (e: Exception) {
+                operationSocket?.close()
                 e.printStackTrace()
+                Log.d("[WARNING]", e.message)
             }
         }.start()
     } catch (e: Exception) {
-        Log.e("on Socket", e.message)
+        Log.e("on Socket", e.message + "\n" + e.localizedMessage)
     }
 
 

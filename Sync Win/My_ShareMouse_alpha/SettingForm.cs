@@ -118,34 +118,52 @@ namespace Sync {
                 } else {
                     // successed connecting
                     AppDataManager.putAddress(iPAddress.ToString());
-                    this.Invoke(new Action(() => {
-                        // 接続完了したら、View更新
-                        if (status == CONNECTSTATUS.OK) {
-                            dispConnectingView(rcvData.device, rcvData.ip);
-                        } else if (status == CONNECTSTATUS.ERROR) {
-                            dispFailedConnectingView();
-                        }
-
-                        if (rcvData.IsDefined("autoStart")) {
-                            autoStartCheckBox.Checked = true;
-                        }
-
-                        //autoConnectingForm.Close();
-                    }));
-
-                    DialogResult dialogResult = MessageBox.Show("接続が完了しました。\n次回から自動的にこのデバイスと接続しますか？\nデバイス名：" + rcvData.device, "接続成功", MessageBoxButtons.OKCancel);
-                    if (dialogResult == DialogResult.OK) {
-                        AppDataManager.putAutoStartFlag(true);
-                        AppDataManager.putLatestData(rcvData.device, rcvData.ip);
-                    }
                     operateRequestManager.connect(iPAddress.ToString(), AppDataManager.getSavedPort());
+
+                    if (this.Visible) {
+                        this.Invoke(new Action(() => {
+                            // 接続完了したら、View更新
+                            if (status == CONNECTSTATUS.OK) {
+                                dispConnectingView(rcvData.device, rcvData.ip);
+                            } else if (status == CONNECTSTATUS.ERROR) {
+                                dispFailedConnectingView();
+                            }
+
+                            if (rcvData.IsDefined("autoStart")) {
+                                autoStartCheckBox.Checked = true;
+                            }
+
+                            DialogResult dialogResult = MessageBox.Show("次回からこのデバイスと接続する\nデバイス名：" + rcvData.device, "自動接続", MessageBoxButtons.OKCancel);
+                            if (dialogResult == DialogResult.OK) {
+                                AppDataManager.putAutoStartFlag(true);
+                                AppDataManager.putLatestData(rcvData.device, rcvData.ip);
+                            }
+                            //autoConnectingForm.Close();
+                        }));
+                    } else {
+                        // 通知バーに表示
+                        SuccessConnectionNotifyIcon.Icon = Properties.Resources.Sync_Icon_Transparent;
+                        SuccessConnectionNotifyIcon.BalloonTipTitle = "Success Connecting";
+                        SuccessConnectionNotifyIcon.BalloonTipText = "接続が完了しました。\n次回からこのデバイスと接続しますか？\nデバイス名：" + rcvData.device;
+                        SuccessConnectionNotifyIcon.BalloonTipClicked += (object sender, EventArgs e) => {
+                            this.Visible = true;
+                            this.Invoke(new Action(() => {
+                                DialogResult dialogResult = MessageBox.Show("次回からこのデバイスと接続する\nデバイス名：" + rcvData.device, "自動接続", MessageBoxButtons.OKCancel);
+                                if (dialogResult == DialogResult.OK) {
+                                    AppDataManager.putAutoStartFlag(true);
+                                    AppDataManager.putLatestData(rcvData.device, rcvData.ip);
+                                }
+                            }));
+                        };
+                        SuccessConnectionNotifyIcon.ShowBalloonTip(5000);
+                    }
                 }
-            }, 
+            },  
             () => {
                 // reject
-                this.Invoke(new Action(() => {
+                //this.Invoke(new Action(() => {
                     //autoConnectingForm.Close();
-                }));
+                //}));
             });
         }
 
@@ -208,7 +226,7 @@ namespace Sync {
 
         private void dispConnectingView(string connectedDevice, string connectedAddress) {
             connectStatusMenuItem.Text = "接続中";
-            connectStatusMenuItem.ForeColor = Color.Cyan;
+            connectStatusMenuItem.ForeColor = Color.Blue;
             disconnectMenuItem.Enabled = true;
 
             connectingStateLabel.Text = "接続中";

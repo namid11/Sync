@@ -1,8 +1,12 @@
 @import url("https://fonts.googleapis.com/css?family=Noto+Sans+JP:300&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Muli&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Baloo+Bhai&display=swap");
+@import url('https://fonts.googleapis.com/css?family=M+PLUS+Rounded+1c:500&display=swap');
 
+.Baloo {
+    font-family: 'Baloo Bhai','M PLUS Rounded 1c', cursive;
+}
 
-.message {
-    font-family: 'Muli', sans-serif;
-    font-size: 2rem;
+.Muli {
+    font-family: 'Muli', 'Noto Sans JP', sans-serif;
 }

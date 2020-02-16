@@ -45,9 +45,17 @@ namespace Sync {
         [DllImport("USER32.dll", CallingConvention = CallingConvention.StdCall)]
         static extern void keybd_event(byte bVk, byte bScan, int dwFlags, int dwExtraInfo);
 
+        // アクティブなウィンドウハンドラ取得？
+        [DllImport("user32.dll")]
+        public static extern IntPtr GetForegroundWindow();
+        [DllImport("user32.dll")]
+        public static extern int GetWindowThreadProcessId(IntPtr hWnd, out int lpdwProcessId);
+
 
         Point buffer_location = new Point(0, 0);
         bool buffer_scale = false;
+
+        LaserPointer laserPointerManager = new LaserPointer();
 
         private void startUDP(UdpClient udp_client) {
             Thread thread = new Thread(new ThreadStart(() => {
@@ -70,11 +78,20 @@ namespace Sync {
                                 //Console.WriteLine("key is 'moved'");
                                 int x = (int)obj.context.x + this.buffer_location.X;
                                 int y = (int)obj.context.y + this.buffer_location.Y;
-                                SetCursorPos(x, y);
+
+                                if (laserPointerManager.isVisible()) {
+                                    laserPointerManager.movePointer(x, y);
+                                } else {
+                                    SetCursorPos(x, y);
+                                }
                                 break;
                             case "first":
                                 //Console.WriteLine("key is 'first'");
-                                this.buffer_location = new Point(Cursor.Position.X, Cursor.Position.Y);
+                                if (laserPointerManager.isVisible()) {
+                                    this.buffer_location = laserPointerManager.getLocation();
+                                } else {
+                                    this.buffer_location = new Point(Cursor.Position.X, Cursor.Position.Y);
+                                }
                                 break;
                             case "click":
                                 //Console.WriteLine("key is 'click'");
@@ -163,13 +180,7 @@ namespace Sync {
                                 keybd_event(VK_PAGEUP, 0, KEYEVENT_KEYUP, 0);
                                 break;
                             case "pp_laser":
-                                //Console.WriteLine("key is pp_laser");
-                                mouse_event(MOUSEEVENT_RIGHTDOWN, 0, 0, 0, 0);
-                                mouse_event(MOUSEEVENT_RIGHTUP, 0, 0, 0, 0);
-                                keybd_event(VK_O, 0, KEYEVENT_KEYDOWN, 0);
-                                keybd_event(VK_O, 0, KEYEVENT_KEYUP, 0);
-                                keybd_event(VK_L, 0, KEYEVENT_KEYDOWN, 0);
-                                keybd_event(VK_L, 0, KEYEVENT_KEYUP, 0);
+                                laserPointerManager.switchLaserPointer();
                                 break;
                             case "pp_pen":
                                 break;
@@ -234,5 +245,79 @@ namespace Sync {
                 Console.WriteLine(e.Message);
             }
         }
+
+
+
+        class LaserPointer {
+            static readonly IntPtr HWND_TOPMOST = new IntPtr(-1);
+            static readonly IntPtr HWND_NOTOPMOST = new IntPtr(-2);
+            static readonly IntPtr HWND_TOP = new IntPtr(0);
+            static readonly IntPtr HWND_BOTTOM = new IntPtr(1);
+            const UInt32 SWP_NOSIZE = 0x0001;
+            const UInt32 SWP_NOMOVE = 0x0002;
+            const UInt32 TOPMOST_FLAGS = SWP_NOMOVE | SWP_NOSIZE;
+
+            [DllImport("user32.dll")]
+            [return: MarshalAs(UnmanagedType.Bool)]
+            public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
+
+            private Form laserForm = new Form();
+
+            public LaserPointer() {
+                laserForm.FormBorderStyle = FormBorderStyle.None;  // borderをなくす
+                laserForm.ShowInTaskbar = false;
+                laserForm.BackgroundImage = Properties.Resources.laser_pointer;  // 画像をセット
+                laserForm.BackgroundImageLayout = ImageLayout.Stretch;  // フィットするように
+                laserForm.MinimumSize = new Size(30, 30);  // サイズ固定
+                laserForm.MaximumSize = new Size(30, 30);
+                laserForm.BackColor = Color.White;  // 背景色
+                laserForm.TransparencyKey = Color.White;  // 指定した色を透明化（この場合、白）
+                laserForm.Show();
+                laserForm.Visible = false;
+
+                SetWindowPos(laserForm.Handle, HWND_TOPMOST, 0, 0, 0, 0, TOPMOST_FLAGS);
+            }
+
+            public void switchLaserPointer() {
+                Thread thread = new Thread(new ThreadStart(() => {
+                    laserForm.Invoke(new Action(() => {
+                        if (laserForm.Visible) {
+                            laserForm.Visible = false;
+                        } else {
+                            // 起動中のアプリを見る
+                            IntPtr hWnd = GetForegroundWindow();
+                            int id;
+                            GetWindowThreadProcessId(hWnd, out id);
+                            if (Process.GetProcessById(id).ProcessName == "POWERPNT") { 
+                                // When activated app is PowerPoint
+                                laserForm.Visible = true;
+                            } else {
+                                // When activated app is not PowerPoint
+                                DialogResult dialogResult = MessageBox.Show("プレゼンテーションアプリでは無いですが、ポインタを表示しますか？", "表示確認", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                                if (dialogResult == DialogResult.Yes) {
+                                    laserForm.Visible = true;
+                                }
+                            }
+                        }
+                    }));
+                }));
+                thread.Start();
+            }
+
+            public bool isVisible() {
+                return laserForm.Visible;
+            }
+
+            public void movePointer(int x, int y) {
+                laserForm.Invoke(new Action(() => {
+                    laserForm.Location = new Point(x, y);
+                }));
+            }
+
+            public Point getLocation() {
+                return laserForm.Location;
+            }
+        }
+
     }
 }
