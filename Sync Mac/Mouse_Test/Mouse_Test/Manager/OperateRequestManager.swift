@@ -125,31 +125,41 @@ class OperateReuqestmanager {
                 } else {
                     presenOprtManager.show()
                 }
-//                let rect = NSMakeRect(0, 0, 200, 200)
-//                let window = NSWindow.init(contentRect: rect, styleMask: NSWindow.StyleMask.borderless, backing: NSWindow.BackingStoreType.buffered, defer: false)
-//                window.isOpaque = false
-//                window.backgroundColor = NSColor(cgColor: CGColor(red: 1, green: 1, blue: 1, alpha: 0))
-//                let image = NSImage(named: NSImage.Name("LaserPointer"))
-//                if let image = image {
-//                    let imageView = NSImageView(image: image)
-//                    imageView.imageFrameStyle = .none
-//                    imageView.frame = NSMakeRect(0, 0, 50, 50)
-//                    imageView.imageScaling = .scaleAxesIndependently
-//
-//                    let imageLayer = CALayer()
-//                    imageLayer.contentsRect = CGRect(x: 0, y: 0, width: 50, height: 50)
-//                    imageLayer.backgroundColor = CGColor(red: 1,green: 0,blue: 1,alpha: 0.5)
-////                    imageView.layer = imageLayer
-//
-//
-//                    let layer = CALayer()
-//                    layer.backgroundColor = CGColor(red: 1, green: 1, blue: 0, alpha: 0)
-//                    window.contentView?.layer = layer
-//                    window.contentView?.addSubview(imageView)
-//                    window.makeKeyAndOrderFront(NSApp)
-//                }
 
                 break
+                
+            case "browser_back":
+                let event_cmd = CGEvent(keyboardEventSource: nil, virtualKey: 0x37, keyDown: true)    // 'left cmd'
+                let event_forward = CGEvent(keyboardEventSource: nil, virtualKey: 0x7B, keyDown: true)   // 'left arrow'
+                let event_cmd_f = CGEvent(keyboardEventSource: nil, virtualKey: 0x37, keyDown: true)
+                let event_forward_f = CGEvent(keyboardEventSource: CGEventSource(event: event_cmd_f), virtualKey: 0x7B, keyDown: false)
+                if let e_cmd = event_cmd, let e_forward = event_forward, let e_cmd_f = event_cmd_f, let e_forward_f = event_forward_f {
+                    e_cmd.post(tap: CGEventTapLocation.cghidEventTap)
+                    e_forward.post(tap: CGEventTapLocation.cghidEventTap)
+                    e_forward_f.post(tap: CGEventTapLocation.cghidEventTap)
+                    e_cmd_f.post(tap: CGEventTapLocation.cghidEventTap)
+                    print("browser_back")
+                } else {
+                    print("failed creating event")
+                }
+                break
+                
+            case "browser_forward":
+                let event_cmd = CGEvent(keyboardEventSource: nil, virtualKey: 0x37, keyDown: true)    // 'left cmd'
+                let event_forward = CGEvent(keyboardEventSource: nil, virtualKey: 0x7C, keyDown: true)   // 'right arrow'
+                let event_cmd_f = CGEvent(keyboardEventSource: nil, virtualKey: 0x37, keyDown: true)
+                let event_forward_f = CGEvent(keyboardEventSource: CGEventSource(event: event_cmd_f), virtualKey: 0x7C, keyDown: false)
+                if let e_cmd = event_cmd, let e_forward = event_forward, let e_cmd_f = event_cmd_f, let e_forward_f = event_forward_f {
+                    e_cmd.post(tap: CGEventTapLocation.cghidEventTap)
+                    e_forward.post(tap: CGEventTapLocation.cghidEventTap)
+                    e_forward_f.post(tap: CGEventTapLocation.cghidEventTap)
+                    e_cmd_f.post(tap: CGEventTapLocation.cghidEventTap)
+                    print("browser_foward")
+                } else {
+                    print("failed creating event")
+                }
+                break
+                
             default:
                 break
             }
