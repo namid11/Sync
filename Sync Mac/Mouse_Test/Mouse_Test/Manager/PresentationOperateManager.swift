@@ -11,7 +11,7 @@ import Cocoa
 class PresentationOperateManager {
     
     let pointerWindow: NSWindow = NSWindow.init(
-        contentRect: NSMakeRect(0, 0, 50, 50),
+        contentRect: NSMakeRect(0, 0, 30, 30),
         styleMask: NSWindow.StyleMask.borderless,
         backing: NSWindow.BackingStoreType.buffered,
         defer: true
@@ -24,7 +24,7 @@ class PresentationOperateManager {
         pointerWindow.isOpaque = false
         pointerWindow.backgroundColor = NSColor(cgColor: CGColor(red: 1, green: 1, blue: 1, alpha: 0))
         laserImageView.imageFrameStyle = .none
-        laserImageView.frame = NSMakeRect(0, 0, 50, 50)
+        laserImageView.frame = pointerWindow.frame
         laserImageView.imageScaling = .scaleAxesIndependently
         pointerWindow.contentView?.addSubview(laserImageView)
         
