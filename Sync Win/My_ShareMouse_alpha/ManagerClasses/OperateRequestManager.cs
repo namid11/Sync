@@ -288,14 +288,14 @@ namespace Sync {
                             IntPtr hWnd = GetForegroundWindow();
                             int id;
                             GetWindowThreadProcessId(hWnd, out id);
-                            if (Process.GetProcessById(id).ProcessName == "POWERPNT") { 
+                            if (Process.GetProcessById(id).ProcessName == "POWERPNT") {
                                 // When activated app is PowerPoint
-                                laserForm.Visible = true;
+                                show();
                             } else {
                                 // When activated app is not PowerPoint
                                 DialogResult dialogResult = MessageBox.Show("プレゼンテーションアプリでは無いですが、ポインタを表示しますか？", "表示確認", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                                 if (dialogResult == DialogResult.Yes) {
-                                    laserForm.Visible = true;
+                                    show();
                                 }
                             }
                         }
@@ -316,6 +316,15 @@ namespace Sync {
 
             public Point getLocation() {
                 return laserForm.Location;
+            }
+
+            private void show() {
+                laserForm.Visible = true;
+                if (Screen.GetWorkingArea(laserForm).IntersectsWith(laserForm.Bounds) == false) {
+                    // When form is out of screen.
+                    laserForm.Location = Cursor.Position;
+                }
+
             }
         }
 

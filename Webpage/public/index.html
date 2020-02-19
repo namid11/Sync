@@ -5,10 +5,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="og:image" content="https://firebasestorage.googleapis.com/v0/b/sync-f0887.appspot.com/o/material%2FCard%20Preview.png?alt=media&token=799d65d3-d4f7-49f6-ab0d-de00a84680f0">
+  <meta name="og:title" content="Sync ~スマホをトラックパッドに~">
+  <meta name="og:description" content="スマホからPCを操作">
   <title>Sync Website</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
     integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
 </head>
 
 <body>
@@ -27,13 +32,18 @@
     <div class="container">
       <div class="what_sync my-3 my-md-5">
         <h1 class="text-center Baloo">Sync とは？</h1>
-        <div class="Muli lead row d-flex align-items-center justify-content-center">
-          <p>Syncを使うことで、スマートフォンからパソコンを操作できます</p>
+        <div class="Muli lead row d-flex align-items-center justify-content-center px-5">
+          <p class="">Syncを使うことで、スマートフォンからパソコンを操作できます</p>
+          <div class="col-12 d-flex align-items-center justify-content-center my-3 my-md-5">
+            <div class="col-12 col-md-6">
+              <img src="https://firebasestorage.googleapis.com/v0/b/sync-f0887.appspot.com/o/material%2Fconnect%20horizontal.svg?alt=media&token=56caa3fa-4375-4dff-a4db-abb69fb71180" alt="connect_preview" width="100%">
+            </div>
+          </div>
         </div>
       </div>
       <div class="function_sync my-3 my-md-5 ">
         <h1 class="text-center Baloo">機能</h1>
-        <ul class="row d-flex align-items-center justify-content-center" style="list-style: none;">
+        <ul class="row d-flex align-items-center justify-content-center px-3" style="list-style: none;">
           <li class="Muli lead col-12 col-md-6 px-3">
             <h4 style="font-weight: 600; color: #0FBCF9;">トラックパッド</h4>
             <p class="">
@@ -48,34 +58,45 @@
           </li>
         </ol>
       </div>
-      <div class="install_sync my-3 my-md-5">
+      <div id="install" class="install_sync my-3 my-md-5">
         <h1 class="text-center Baloo">ダウンロード</h1>
-        <p class="lead Muli text-center">* Sync を利用するには、スマホとパソコンにアプリをインストールする必要があります</p>
+        <div class="row d-flex align-items-center justify-content-center Muli px-5">
+          <p class="Muli">
+            * Sync を利用するには、スマホとパソコンにアプリをインストールする必要があります
+          </p>
+        </div>
         <div class="row d-flex align-items-stretch justify-content-center Muli">
-          <div class="col-12 col-md-4 p-3">
+          <div class="col-10 col-md-4 p-3">
             <h4 class="text-center">Android</h4>
             <div>
-              <a href="#">
-                <img src="https://play.google.com/intl/ja/badges/static/images/badges/ja_badge_web_generic.png" alt="Google Play" style="width: 100%;">
+              <a href='https://play.google.com/store/apps/details?id=com.cyan_namid09.sync&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'>
+                <img alt='Google Play で手に入れよう' src='https://play.google.com/intl/ja/badges/static/images/badges/ja_badge_web_generic.png' width="100%"/>
               </a>
             </div>
           </div>
-          <div class="col-12 col-md-4 p-3">
+          <div class="col-10 col-md-4 p-3">
             <h4 class="text-center">Windows</h4>
             <div>
-              <a href="#">
+              <a href="https://firebasestorage.googleapis.com/v0/b/sync-f0887.appspot.com/o/release%2FSync.zip?alt=media&token=b4ac6dad-a5f0-4f16-8761-c37bb589bb88">
                 <img src="https://3er1viui9wo30pkxh1v2nh4w-wpengine.netdna-ssl.com/wp-content/uploads/prod/2014/10/Windows_logo_Cyan_rgb_D-768x261.png" alt="Windows" width="100%">
               </a>
             </div>
           </div>
-          <div class="col-12 col-md-4 p-3">
+          <div class="col-10 col-md-4 p-3">
             <h4 class="text-center">macOS</h4>
             <div class="text-center">
-              <a href="#">
+              <a href="https://firebasestorage.googleapis.com/v0/b/sync-f0887.appspot.com/o/release%2FSync_ver1.0.dmg?alt=media&token=8b8cf319-9cee-4c58-a1c6-4021c41cd881">
                 <img src="https://www.pngitem.com/pimgs/m/452-4529126_macos-logo-png-transparent-png.png" alt="macOS" width="100%">
               </a>
             </div>
           </div>
+        </div>
+      </div>
+      <div class="manual_sync my-3 my-md-5">
+        <h1 class="text-center Baloo">マニュアル</h1>
+        <div class="lead Muli text-center">
+          <p>以下のリンクからマニュアルページに移動できます</p>
+          <a href="/manual"><i class="fas fa-book" style="padding-right: 0.5rem;"></i>マニュアル</a>
         </div>
       </div>
     </div>
