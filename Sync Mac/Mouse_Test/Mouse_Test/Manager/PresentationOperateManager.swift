@@ -40,6 +40,7 @@ class PresentationOperateManager {
     func show() {
         pointerWindow.orderFrontRegardless()
         pointerWindow.level = .popUpMenu
+        pointerWindow.setFrameOrigin(NSEvent.mouseLocation)
         // カーソル隠す
         NSCursor.hide()
     }

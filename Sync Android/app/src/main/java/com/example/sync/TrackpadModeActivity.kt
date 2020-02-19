@@ -3,16 +3,19 @@ package com.example.sync
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.AnimatedVectorDrawable
+import android.hardware.SensorManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.animation.AnimationUtils
-import android.widget.FrameLayout
 import android.widget.ImageButton
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import com.example.sync.Manager.IpPortManager
+import com.example.sync.Manager.runSocket
+import com.squareup.seismic.ShakeDetector
+import org.json.JSONObject
 
-class TrackpadModeActivity : AppCompatActivity() {
+class TrackpadModeActivity : AppCompatActivity(), ShakeDetector.Listener {
 
     private lateinit var menuButton: ImageButton
     private lateinit var settingButton: ImageButton
@@ -79,6 +82,11 @@ class TrackpadModeActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
+        // リスナーをセット
+        val sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        val sd = ShakeDetector(this)
+        sd.start(sensorManager)
+
         ipPortManager.reloadAddressInfo()
 
         // IPアドレスとポート番号が未設定の場合の初期設定
@@ -89,5 +97,17 @@ class TrackpadModeActivity : AppCompatActivity() {
         if (sharedPref.getInt("port", 0) == 0) {
             sharedPref.edit().putInt("port", 8080).apply()
         }
+    }
+
+    override fun hearShake() {
+
+        val sendJson = JSONObject()
+        sendJson.put("key", "shake")
+        operateRequest(sendJson)
+        Log.d("[shake]", "shake")
+    }
+
+    private fun operateRequest(send: JSONObject) {
+        runSocket(ipPortManager.getIP(), ipPortManager.getPort(), send)
     }
 }

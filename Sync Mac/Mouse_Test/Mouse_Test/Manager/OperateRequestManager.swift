@@ -94,8 +94,19 @@ class OperateReuqestmanager {
             case "shake":
                 let process = Process()
                 process.launchPath = "/usr/bin/open"
-                process.arguments = ["/Applications/Siri.app"]
+                process.arguments = ["/Applications/Safari.app"]
                 process.launch()
+//                let event_cmd = CGEvent(keyboardEventSource: nil, virtualKey: 0x37, keyDown: true)    // 'left control'
+//                let event_forward = CGEvent(keyboardEventSource: nil, virtualKey: 0x7E, keyDown: true)   // 'up arrow'
+//                let event_cmd_f = CGEvent(keyboardEventSource: nil, virtualKey: 0x37, keyDown: false)
+//                let event_forward_f = CGEvent(keyboardEventSource: CGEventSource(event: event_cmd_f), virtualKey: 0x7E, keyDown: false)
+//                if let e_cmd = event_cmd, let e_forward = event_forward, let e_cmd_f = event_cmd_f, let e_forward_f = event_forward_f {
+//                    e_forward.flags = .maskControl
+//                    e_forward.post(tap: CGEventTapLocation.cghidEventTap)
+//                    e_cmd_f.post(tap: .cghidEventTap)
+//                    event_forward_f?.post(tap: .cghidEventTap)
+//                    print("shake")
+//                }
                 break
                 
             case "scroll":
@@ -119,6 +130,44 @@ class OperateReuqestmanager {
                 }
                 break
                 
+                
+            case "browser_back":
+                let event_cmd = CGEvent(keyboardEventSource: nil, virtualKey: 0x37, keyDown: true)    // 'left cmd'
+                let event_forward = CGEvent(keyboardEventSource: nil, virtualKey: 0x7B, keyDown: true)   // 'left arrow'
+                let event_cmd_f = CGEvent(keyboardEventSource: nil, virtualKey: 0x37, keyDown: false)
+                let event_forward_f = CGEvent(keyboardEventSource: CGEventSource(event: event_cmd_f), virtualKey: 0x7B, keyDown: false)
+                if let e_cmd = event_cmd, let e_forward = event_forward, let e_cmd_f = event_cmd_f, let e_forward_f = event_forward_f {
+                    e_forward.flags = .maskCommand
+                    e_forward.post(tap: CGEventTapLocation.cghidEventTap)
+                    e_cmd_f.post(tap: .cghidEventTap)
+                    event_forward_f?.post(tap: .cghidEventTap)
+                    print("browser_back")
+                } else {
+                    print("failed creating event")
+                }
+                break
+                
+            case "browser_forward":
+                let event_cmd = CGEvent(keyboardEventSource: nil, virtualKey: 0x37, keyDown: true)    // 'left cmd'
+//                event_cmd!.post(tap: CGEventTapLocation.cghidEventTap)
+                let event_forward = CGEvent(keyboardEventSource: nil, virtualKey: 0x7C, keyDown: true)   // 'right arrow'
+//                event_forward!.post(tap: .cghidEventTap)
+                let event_cmd_f = CGEvent(keyboardEventSource: nil, virtualKey: 0x37, keyDown: false)
+//                event_cmd_f!.post(tap: .cghidEventTap)
+                let event_forward_f = CGEvent(keyboardEventSource: CGEventSource(event: event_cmd_f), virtualKey: 0x7C, keyDown: false)
+//                event_forward_f!.post(tap: .cghidEventTap)
+                if let e_cmd = event_cmd, let e_forward = event_forward, let e_cmd_f = event_cmd_f, let e_forward_f = event_forward_f {
+                    e_forward.flags = .maskCommand
+                    e_forward.post(tap: .cghidEventTap)
+                
+                    e_cmd_f.post(tap: .cghidEventTap)
+                    e_forward_f.post(tap: .cghidEventTap)
+                    print("browser_foward")
+                } else {
+                    print("failed creating event")
+                }
+                break
+                
             case "pp_laser":
                 if (presenOprtManager.isVisible()) {
                     presenOprtManager.hide()
@@ -128,35 +177,21 @@ class OperateReuqestmanager {
 
                 break
                 
-            case "browser_back":
-                let event_cmd = CGEvent(keyboardEventSource: nil, virtualKey: 0x37, keyDown: true)    // 'left cmd'
-                let event_forward = CGEvent(keyboardEventSource: nil, virtualKey: 0x7B, keyDown: true)   // 'left arrow'
-                let event_cmd_f = CGEvent(keyboardEventSource: nil, virtualKey: 0x37, keyDown: true)
-                let event_forward_f = CGEvent(keyboardEventSource: CGEventSource(event: event_cmd_f), virtualKey: 0x7B, keyDown: false)
-                if let e_cmd = event_cmd, let e_forward = event_forward, let e_cmd_f = event_cmd_f, let e_forward_f = event_forward_f {
-                    e_cmd.post(tap: CGEventTapLocation.cghidEventTap)
+            case "pp_next":
+                let event_forward = CGEvent(keyboardEventSource: nil, virtualKey: 0x7C, keyDown: true)   // 'left arrow'
+                let event_forward_f = CGEvent(keyboardEventSource: nil, virtualKey: 0x7C, keyDown: false)   // 'left arrow'
+                if let e_forward = event_forward, let e_forward_f = event_forward_f {
                     e_forward.post(tap: CGEventTapLocation.cghidEventTap)
                     e_forward_f.post(tap: CGEventTapLocation.cghidEventTap)
-                    e_cmd_f.post(tap: CGEventTapLocation.cghidEventTap)
-                    print("browser_back")
-                } else {
-                    print("failed creating event")
                 }
                 break
                 
-            case "browser_forward":
-                let event_cmd = CGEvent(keyboardEventSource: nil, virtualKey: 0x37, keyDown: true)    // 'left cmd'
-                let event_forward = CGEvent(keyboardEventSource: nil, virtualKey: 0x7C, keyDown: true)   // 'right arrow'
-                let event_cmd_f = CGEvent(keyboardEventSource: nil, virtualKey: 0x37, keyDown: true)
-                let event_forward_f = CGEvent(keyboardEventSource: CGEventSource(event: event_cmd_f), virtualKey: 0x7C, keyDown: false)
-                if let e_cmd = event_cmd, let e_forward = event_forward, let e_cmd_f = event_cmd_f, let e_forward_f = event_forward_f {
-                    e_cmd.post(tap: CGEventTapLocation.cghidEventTap)
+            case "pp_back":
+                let event_forward = CGEvent(keyboardEventSource: nil, virtualKey: 0x7B, keyDown: true)   // 'left arrow'
+                let event_forward_f = CGEvent(keyboardEventSource: nil, virtualKey: 0x7B, keyDown: false)   // 'left arrow'
+                if let e_forward = event_forward, let e_forward_f = event_forward_f {
                     e_forward.post(tap: CGEventTapLocation.cghidEventTap)
                     e_forward_f.post(tap: CGEventTapLocation.cghidEventTap)
-                    e_cmd_f.post(tap: CGEventTapLocation.cghidEventTap)
-                    print("browser_foward")
-                } else {
-                    print("failed creating event")
                 }
                 break
                 

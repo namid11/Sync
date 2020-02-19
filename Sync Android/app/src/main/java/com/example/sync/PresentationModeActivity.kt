@@ -7,11 +7,9 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
-import android.media.Image
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.animation.AnimationUtils
-import android.widget.Button
 import android.widget.ImageButton
 import androidx.core.view.isVisible
 import com.example.sync.Manager.IpPortManager
@@ -91,21 +89,21 @@ class PresentationModeActivity : AppCompatActivity(), SensorEventListener, Shake
         forwardButton.setOnClickListener {
             val sendJson = JSONObject()
             sendJson.put("key", "pp_next")
-            operateReqest(sendJson)
+            operateRequest(sendJson)
         }
 
         backwardButton.isVisible = false
         backwardButton.setOnClickListener {
             val sendJson = JSONObject()
             sendJson.put("key", "pp_back")
-            operateReqest(sendJson)
+            operateRequest(sendJson)
         }
 
         laserButton.isVisible = false
         laserButton.setOnClickListener {
             val sendJson = JSONObject()
             sendJson.put("key", "pp_laser")
-            operateReqest(sendJson)
+            operateRequest(sendJson)
         }
 
         finishedActivityButton.isVisible = false
@@ -166,6 +164,9 @@ class PresentationModeActivity : AppCompatActivity(), SensorEventListener, Shake
     // シェイク検知
     override fun hearShake() {
         // やりたい処理を書く
+        val sendJson = JSONObject()
+        sendJson.put("key", "shake")
+        operateRequest(sendJson)
     }
 
 
@@ -196,7 +197,7 @@ class PresentationModeActivity : AppCompatActivity(), SensorEventListener, Shake
         }
     }
 
-    private fun operateReqest(send: JSONObject) {
+    private fun operateRequest(send: JSONObject) {
         runSocket(ipPortManager.getIP(), ipPortManager.getPort(), send)
     }
 }
