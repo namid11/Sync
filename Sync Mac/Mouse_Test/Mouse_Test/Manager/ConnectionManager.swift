@@ -18,9 +18,7 @@ class ConnectionManager {
             let nDeviceData: JSONRequestData? =  self.takeRequestParams(data: data as Data)
             if let deviceData = nDeviceData {
                 // この段階で、受信処理は成功
-                DispatchQueue.main.async {  // mainスレッド処理
-                    rcvCallback(deviceData)
-                }
+
                 
                 do {
                     // レスポンス処理（TCPでソケット通信）
@@ -36,7 +34,12 @@ class ConnectionManager {
                     print("same address:" + (self.findSameNetwork(targetIp: deviceData.ip) ?? "NULL"))
                     SocketManager.send(sock: socket, socketAddress: &address, data: responseData)
                 } catch let e {
+                    print("[Error]")
                     print(e)
+                }
+                
+                DispatchQueue.main.async {  // mainスレッド処理
+                    rcvCallback(deviceData)
                 }
             }
             
@@ -67,6 +70,7 @@ class ConnectionManager {
             let subnetmask: [UInt8] = ipAddrToBytes(ip: "255.255.255.0")
             var addressFlag = false
             for i in 0..<subnetmask.count {
+                print("hoge")
                 if ((clientAddress[i] & subnetmask[i]) == (serverAddress[i] & subnetmask[i])) {
                     if (i == subnetmask.count - 1) {
                         addressFlag = true
