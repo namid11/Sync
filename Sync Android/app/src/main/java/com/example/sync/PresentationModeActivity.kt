@@ -2,7 +2,9 @@ package com.example.sync
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.Animatable
 import android.graphics.drawable.AnimatedVectorDrawable
+import android.graphics.drawable.Drawable
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -12,6 +14,8 @@ import android.os.Bundle
 import android.view.animation.AnimationUtils
 import android.widget.ImageButton
 import androidx.core.view.isVisible
+import androidx.vectordrawable.graphics.drawable.Animatable2Compat
+import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.example.sync.Manager.IpPortManager
 import com.example.sync.Manager.runSocket
 import com.squareup.seismic.ShakeDetector
@@ -50,9 +54,13 @@ class PresentationModeActivity : AppCompatActivity(), SensorEventListener, Shake
             if (menuButton.tag as Boolean) {
                 // hidden menu
                 menuButton.setImageResource(R.drawable.home_ani_cross_to_menu)
-                val drawable = menuButton.drawable as AnimatedVectorDrawable
-                if (!drawable.isRunning) {
-                    drawable.start()
+                val drawable = menuButton.drawable as? AnimatedVectorDrawable
+                if (drawable != null) {
+                    if (!drawable.isRunning) {
+                        drawable.start()
+                    }
+                } else {
+                    (menuButton.drawable as Animatable).start()
                 }
 
                 for (view in drawerGroup) {
@@ -65,9 +73,20 @@ class PresentationModeActivity : AppCompatActivity(), SensorEventListener, Shake
             } else {
                 // show menu
                 menuButton.setImageResource(R.drawable.ani_menu_to_cross)
-                val drawable = menuButton.drawable as AnimatedVectorDrawable
-                if (!drawable.isRunning) {
-                    drawable.start()
+                val drawable = menuButton.drawable as? AnimatedVectorDrawable
+                if (drawable != null) {
+                    if (!drawable.isRunning) {
+                        drawable.start()
+                    }
+                } else {
+                    (menuButton.drawable as Animatable).start()
+
+//                    AnimatedVectorDrawableCompat.registerAnimationCallback(menuButton.drawable,
+//                        object : Animatable2Compat.AnimationCallback() {
+//                            override fun onAnimationEnd(drawable: Drawable?) {
+//
+//                            }
+//                        })
                 }
 
                 for (view in drawerGroup) {
