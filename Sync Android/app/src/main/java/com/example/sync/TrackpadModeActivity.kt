@@ -2,6 +2,7 @@ package com.example.sync
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.Animatable
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.hardware.SensorManager
 import androidx.appcompat.app.AppCompatActivity
@@ -38,9 +39,13 @@ class TrackpadModeActivity : AppCompatActivity(), ShakeDetector.Listener {
             if (menuButton.tag as Boolean) {
                 // hidden menu
                 menuButton.setImageResource(R.drawable.home_ani_cross_to_menu)
-                val drawable = menuButton.drawable as AnimatedVectorDrawable
-                if (!drawable.isRunning) {
-                    drawable.start()
+                val drawable = menuButton.drawable as? AnimatedVectorDrawable
+                if (drawable != null) {
+                    if (!drawable.isRunning) {
+                        drawable.start()
+                    }
+                } else {
+                    (menuButton.drawable as Animatable).start()
                 }
 
                 settingButton.isVisible = false
@@ -51,9 +56,13 @@ class TrackpadModeActivity : AppCompatActivity(), ShakeDetector.Listener {
             } else {
                 // show menu
                 menuButton.setImageResource(R.drawable.ani_menu_to_cross)
-                val drawable = menuButton.drawable as AnimatedVectorDrawable
-                if (!drawable.isRunning) {
-                    drawable.start()
+                val drawable = menuButton.drawable as? AnimatedVectorDrawable
+                if (drawable != null) {
+                    if (!drawable.isRunning) {
+                        drawable.start()
+                    }
+                } else {
+                    (menuButton.drawable as Animatable).start()
                 }
 
                 settingButton.isVisible = true

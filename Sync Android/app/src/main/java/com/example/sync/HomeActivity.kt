@@ -16,6 +16,7 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
+
         trackpadConstraintView = findViewById(R.id.trackpad_constraintView)
         presentationConstraintView = findViewById(R.id.presentation_constrainView)
 
