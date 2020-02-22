@@ -1,6 +1,8 @@
 package com.example.sync.Fragment
 
 import android.content.Context
+import android.graphics.drawable.Animatable
+import android.graphics.drawable.Animatable2
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.os.Bundle
 import android.os.Handler
@@ -64,9 +66,13 @@ class ConnectSettingFragment: SettingMenuItemFragment() {
                             alertDialog.dismiss()
                         }
                         imageView.setImageResource(R.drawable.ani_check_mark)
-                        val animatedDrawable = imageView.drawable as AnimatedVectorDrawable
-                        if (!animatedDrawable.isRunning) {
-                            animatedDrawable.start()
+                        val animatedDrawable = imageView.drawable as? AnimatedVectorDrawable
+                        if (animatedDrawable != null) {
+                            if (!animatedDrawable.isRunning) {
+                                animatedDrawable.start()
+                            }
+                        } else {
+                            (imageView.drawable as Animatable).start()
                         }
                     }
                 },
